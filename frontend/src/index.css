@@ -1,0 +1,67 @@
+@import url(
+'https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;500;600&family=Poppins:wght@600;700&display=swap'
+);
+
+@import "tailwindcss";
+
+
+/* @utility container-width {
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+} */
+
+ /* GLOBAL FOCUS STYLE FOR YELLOW OUTLINE - Add this to your globals.css */
+input:focus, textarea:focus {
+  border-color: #FFD700!important;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3)!important;
+}
+
+@import "tailwindcss";
+
+
+
+*{
+
+margin:0;
+
+padding:0;
+
+box-sizing:border-box;
+
+}
+
+
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+
+
+body{
+
+font-family:"Open Sans",sans-serif;
+
+overflow-x:hidden;
+
+}
+
+
+
+h1,h2,h3{
+
+font-family:"Montserrat",sans-serif;
+
+}
+
+
+
+button,
+a{
+
+font-family:"Poppins",sans-serif;
+
+}
