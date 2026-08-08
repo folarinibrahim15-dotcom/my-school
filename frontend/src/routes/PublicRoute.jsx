@@ -14,7 +14,7 @@ import Admissions from "../pages/Admissions/Admissions";
 import ApplyOnline from "../pages/Admissions/ApplyOnline";
 import AcceptAdmission from "../pages/Admissions/AcceptAdmission";
 
-import Curriculum from "../pages/curriculum/curriculum";
+import Curriculum from "../pages/curriculum/Curriculum";
 import AwarenessCurriculum from "../pages/curriculum/AwarenessCurriculum";
 
 import News from "../pages/news/News";
