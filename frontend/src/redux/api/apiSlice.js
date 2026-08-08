@@ -12,13 +12,19 @@ export const apiSlice = createApi({
         credentials: "include",
 
         prepareHeaders: (headers, { getState }) => {
-            const token = getState()?.auth?.token;
+            const token = getState().auth?.token;
 
             if (token) {
-                headers.set("Authorization", `Bearer ${token}`);
+                headers.set(
+                    "Authorization",
+                    `Bearer ${token}`
+                );
             }
 
-            headers.set("Content-Type", "application/json");
+            headers.set(
+                "Content-Type",
+                "application/json"
+            );
 
             return headers;
         },
