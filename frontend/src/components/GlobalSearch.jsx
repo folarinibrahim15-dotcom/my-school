@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { FiSearch, FiX, FiClock, FiArrowRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { useSearch } from "../context/SearchContext";
+import { useSearch } from "../context/searchContext.jsx";
 import searchData from "../data/searchData";
 
 export default function GlobalSearch() {
