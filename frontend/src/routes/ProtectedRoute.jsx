@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
     Navigate,
     Outlet,
     useLocation,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
     useGetCurrentUserQuery,
@@ -15,21 +15,29 @@ import {
     logout,
 } from "../features/auth/authSlice";
 
+
 export default function ProtectedRoute() {
+
     const dispatch = useDispatch();
+
     const location = useLocation();
 
     /*
     |--------------------------------------------------------------------------
-    | Session readiness
+    | Get Existing Authentication State
     |--------------------------------------------------------------------------
-    |
-    | We must NOT render child routes until the /auth/me response has been
-    | copied into Redux. Otherwise RoleRoute can run while role is still null.
-    |
     */
 
-    const [sessionReady, setSessionReady] = useState(false);
+    const existingToken = useSelector(
+        (state) => state.auth?.token
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verify Current User
+    |--------------------------------------------------------------------------
+    */
 
     const {
         data,
@@ -37,88 +45,114 @@ export default function ProtectedRoute() {
         isError,
     } = useGetCurrentUserQuery();
 
+
     /*
     |--------------------------------------------------------------------------
-    | Restore authenticated user
+    | Restore User Without Destroying Existing Token
     |--------------------------------------------------------------------------
     */
 
     useEffect(() => {
-        if (isLoading) {
-            return;
-        }
 
         if (data?.user) {
+
             dispatch(
                 setCredentials({
                     user: data.user,
 
                     /*
-                    | Keep an existing token if /auth/me does not return one.
-                    | This is useful when authentication is maintained by a
-                    | cookie and /auth/me only returns the user.
+                    |----------------------------------------------------------
+                    | IMPORTANT
+                    |----------------------------------------------------------
+                    |
+                    | If /auth/me returns a token, use it.
+                    |
+                    | If it does NOT return a token, KEEP the existing
+                    | login token instead of replacing it with null.
+                    |
                     */
-                    token: data.token ?? null,
+
+                    token:
+                        data.token ||
+                        existingToken ||
+                        null,
                 })
             );
-
-            setSessionReady(true);
-
-            return;
         }
 
-        if (isError || !data?.user) {
-            dispatch(logout());
-            setSessionReady(true);
-        }
     }, [
         data,
-        isLoading,
+        existingToken,
+        dispatch,
+    ]);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout When Authentication Fails
+    |--------------------------------------------------------------------------
+    */
+
+    useEffect(() => {
+
+        if (isError) {
+            dispatch(logout());
+        }
+
+    }, [
         isError,
         dispatch,
     ]);
 
+
     /*
     |--------------------------------------------------------------------------
-    | Wait for authentication verification
+    | Loading
     |--------------------------------------------------------------------------
     */
 
-    if (isLoading || !sessionReady) {
+    if (isLoading) {
+
         return (
             <main className="min-h-screen flex items-center justify-center bg-slate-100">
+
                 <div className="text-center">
+
                     <p className="text-sm font-medium text-gray-600">
                         Verifying authentication...
                     </p>
+
                 </div>
+
             </main>
         );
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Authentication failed
+    | Not Authenticated
     |--------------------------------------------------------------------------
     */
 
     if (isError || !data?.user) {
+
         return (
             <Navigate
                 to="/portal/login"
                 replace
-                state={{ from: location }}
+                state={{
+                    from: location,
+                }}
             />
         );
     }
 
+
     /*
     |--------------------------------------------------------------------------
-    | Authentication successful
+    | Authenticated
     |--------------------------------------------------------------------------
-    |
-    | Redux now contains the authenticated user before RoleRoute runs.
-    |
     */
 
     return <Outlet />;
