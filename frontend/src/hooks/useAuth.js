@@ -1,23 +1,32 @@
 import { useSelector } from "react-redux";
 
 export default function useAuth() {
-  const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth);
 
-  return {
-    user: auth.user,
+    const user = auth?.user || null;
+    const token = auth?.token || null;
 
-    token: auth.token,
+    const role = String(user?.role || "")
+        .trim()
+        .toLowerCase();
 
-    role: auth.user?.role || null,
+    return {
+        user,
 
-    isAuthenticated: auth.isAuthenticated,
+        token,
 
-    isAdmin: auth.user?.role === "admin",
+        role: role || null,
 
-    isTeacher: auth.user?.role === "teacher",
+        isAuthenticated: Boolean(
+            auth?.isAuthenticated && user
+        ),
 
-    isStudent: auth.user?.role === "student",
+        isAdmin: role === "admin",
 
-    isParent: auth.user?.role === "parent",
-  };
+        isTeacher: role === "teacher",
+
+        isStudent: role === "student",
+
+        isParent: role === "parent",
+    };
 }

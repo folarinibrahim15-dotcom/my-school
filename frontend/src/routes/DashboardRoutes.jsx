@@ -311,10 +311,10 @@ export default function DashboardRoutes() {
       <Route
         path=""
         element={
-          <Navigate
-            to="login"
+        <Navigate
+            to="/portal/login"
             replace
-          />
+        />
         }
       />
 
@@ -327,8 +327,8 @@ export default function DashboardRoutes() {
         path="*"
         element={
           <Navigate
-            to="login"
-            replace
+              to="/portal/login"
+              replace
           />
         }
       />
