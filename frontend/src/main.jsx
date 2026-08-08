@@ -6,7 +6,7 @@ import { store } from "./redux/store";
 
 import App from "./App.jsx";
 import "./index.css";
-import { SearchProvider } from "./context/SearchContext";
+import { SearchProvider } from "./context/searchContext.jsx";
 
 ReactDOM.createRoot(
   document.getElementById("root")
