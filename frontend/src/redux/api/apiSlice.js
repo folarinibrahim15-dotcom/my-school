@@ -12,7 +12,14 @@ export const apiSlice = createApi({
         credentials: "include",
 
         prepareHeaders: (headers, { getState }) => {
-            const token = getState().auth?.token;
+            const reduxToken =
+                getState().auth?.token;
+
+            const savedToken =
+                localStorage.getItem("accessToken");
+
+            const token =
+                reduxToken || savedToken;
 
             if (token) {
                 headers.set(

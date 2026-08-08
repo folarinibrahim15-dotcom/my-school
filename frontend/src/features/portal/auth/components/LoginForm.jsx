@@ -46,6 +46,8 @@ export default function LoginForm() {
         password,
       }).unwrap();
 
+      localStorage.setItem("accessToken", response.token);
+
       // Save authenticated user
 
       dispatch(
