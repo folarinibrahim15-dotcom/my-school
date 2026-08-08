@@ -1,7 +1,6 @@
-
-
 const allowedOrigins = [
-  "http://localhost:5173",
+    "http://localhost:5173",
+    "https://my-school-2.onrender.com",
 ];
 
 const corsOptions = {

@@ -1,17 +1,13 @@
 {
-  "name": "my-school",
+  "name": "my-school-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "fullstack": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "backend": "nodemon backend/server.js",
-    "frontend": "cd frontend && npm run dev"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "description": "Sound Peace International Schools Backend API",
   "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
     "axios": "^1.19.0",
     "bcrypt": "^6.0.0",
@@ -37,18 +33,9 @@
     "nodemailer": "^9.0.3",
     "pdfkit": "^0.19.1",
     "streamifier": "^0.1.1",
-    "xss-clean": "^0.1.4"
+    "xss-clean": "^0.1.0"
   },
   "devDependencies": {
-    "concurrently": "^10.0.3",
     "nodemon": "^3.1.14"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/folarinibrahim15-dotcom/my-school.git"
-  },
-  "bugs": {
-    "url": "https://github.com/folarinibrahim15-dotcom/my-school/issues"
-  },
-  "homepage": "https://github.com/folarinibrahim15-dotcom/my-school#readme"
+  }
 }

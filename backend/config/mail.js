@@ -1,31 +1,63 @@
 import "./env.js";
 import nodemailer from "nodemailer";
 
-// console.log("MAIL_HOST:", process.env.MAIL_HOST);
-// console.log("MAIL_PORT:", process.env.MAIL_PORT);
-// console.log("MAIL_USER:", process.env.MAIL_USER);
-// console.log("MAIL_PASS:", process.env.MAIL_PASS ? "Loaded" : "Missing");
-const createTransporter = () =>
-  nodemailer.createTransport({
+const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
-    port: Number(process.env.MAIL_PORT),
+    port: Number(process.env.MAIL_PORT) || 587,
     secure: false,
+
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
     },
-  });
 
-const transporter = createTransporter();
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000,
 
-// Optional: Verify the SMTP connection on startup
+    tls: {
+        rejectUnauthorized: false,
+    },
+});
+
 export const verifyMailConnection = async () => {
-  try {
-    await transporter.verify();
-    console.log("✅ Mail server connected successfully.");
-  } catch (error) {
-    console.error("❌ Mail server connection failed:", error.message);
-  }
+    try {
+        await transporter.verify();
+
+        console.log("✅ Mail server connected successfully.");
+    } catch (error) {
+        console.error("❌ Mail server connection failed:");
+        console.error("Code:", error.code);
+        console.error("Command:", error.command);
+        console.error("Message:", error.message);
+    }
+};
+
+export const sendEmail = async ({
+    to,
+    subject,
+    html,
+    text,
+}) => {
+    try {
+        const info = await transporter.sendMail({
+            from: `"${process.env.MAIL_FROM_NAME}" <${process.env.MAIL_USER}>`,
+            to,
+            subject,
+            text,
+            html,
+        });
+
+        console.log("✅ Email sent successfully:", info.messageId);
+
+        return info;
+    } catch (error) {
+        console.error("❌ Email sending failed:");
+        console.error("Code:", error.code);
+        console.error("Message:", error.message);
+
+        throw error;
+    }
 };
 
 export default transporter;
