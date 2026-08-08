@@ -6,7 +6,7 @@ import heroSlides from "../../data/heroSlides";
 import HeroSlide from "./HeroSlide";
 import HeroControls from "./HeroControls";
 import HeroDots from "./HeroDots";
-import useHeroSlider from "./useHeroSlider";
+import useHeroSlider from "./useHeroSLider";
 
 export default function HeroSlider() {
   const [showControls, setShowControls] = useState(false);
