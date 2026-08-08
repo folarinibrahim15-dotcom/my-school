@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import { useSearch } from "../../context/SearchContext";
+import { useSearch } from "../../context/searchContext";
 import { FiSearch } from "react-icons/fi";
 import {
   FaChevronDown,
