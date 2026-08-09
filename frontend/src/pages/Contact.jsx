@@ -131,13 +131,27 @@ export default function ContactSection() {
                 <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                   <FaPhone style={{ color: "#000", fontSize: "16px" }} />
                   <p style={{ margin: 0, fontSize: "24px", color: "#333", fontWeight: 500 }}>
-                    +234 (0) 8138555951
+                    <a
+                      href="tel:+2348038555951"
+                        style={{
+                           textDecoration: "underline",
+                            }}
+                        >
+                         +2348038555951
+                  </a>
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                   <FaPhone style={{ color: "#000", fontSize: "16px" }} />
                   <p style={{ margin: 0, fontSize: "24px", color: "#333", fontWeight: 500 }}>
-                    +234 (0) 8062265559
+                    <a
+                      href="tel:+2348062265559"
+                        style={{
+                           textDecoration: "underline",
+                            }}
+                        >
+                         +2348062265559
+                  </a>
                   </p>
                 </div>
               </div>
@@ -146,16 +160,16 @@ export default function ContactSection() {
               <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
                 <FaEnvelope style={{ color: "#8B0000", fontSize: "16px" }} />
                 <a
-                  href="mailto:soundpeace.educators@gmail.com"
+                  href="mailto:soundpeaceinternationalschools@gmail.com"
                   style={{
                     margin: 0,
-                    fontSize: "16px",
+                    fontSize: "12px",
                     color: "#8B0000",
                     textDecoration: "none",
                     fontWeight: 500,
                   }}
                 >
-                  soundpeace.educators@gmail.com
+                  soundpeaceinternationalschools@gmail.com
                 </a>
               </div>
             </div>
