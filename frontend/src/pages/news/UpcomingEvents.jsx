@@ -320,7 +320,7 @@ export default function UpcomingEvents() {
                 }}>
                   <div>
                     <p style={{margin: 0, fontWeight: '400'}}>Phone:</p>
-                    <p style={{margin: '4px 0 0 0', fontWeight: '700', fontSize: '17px'}}>+2348138555951</p>
+                    <p style={{margin: '4px 0 0 0', fontWeight: '700', fontSize: '17px'}}>+2348038555951</p>
                   </div>
 
                   <div>
@@ -331,7 +331,7 @@ export default function UpcomingEvents() {
                   <div>
                     <p style={{margin: 0, fontWeight: '400'}}>Email:</p>
                     <a
-                      href="mailto:soundpeace.educators@gmail.com"
+                      href="mailto:soundpeaceinternationalschools@gmail.com"
                       style={{
                         margin: '4px 0 0 0',
                         display: 'block',

@@ -3,7 +3,6 @@ import React from "react";
 import Slider from "react-slick";
 
 import "slick-carousel/slick/slick.css";
-
 import "slick-carousel/slick/slick-theme.css";
 
 import testimonialsData from "../../data/testimonialsData";
@@ -11,159 +10,242 @@ import testimonialsData from "../../data/testimonialsData";
 import TestimonialCard from "./TestimonialCard";
 
 export default function TestimonialSlider() {
+    const settings = {
+        /*
+        ============================================================
+        MOBILE FIRST
+        ============================================================
+        */
 
-  const settings = {
+        mobileFirst: true,
 
-    dots: true,
+        dots: true,
 
-    infinite: true,
+        infinite: true,
 
-    speed: 700,
+        speed: 700,
 
-    slidesToShow: 3,
+        slidesToShow: 1,
 
-    slidesToScroll: 1,
+        slidesToScroll: 1,
 
-    autoplay: true,
+        autoplay: true,
 
-    autoplaySpeed: 5000,
+        autoplaySpeed: 5000,
 
-    pauseOnHover: true,
+        pauseOnHover: true,
 
-    arrows: true,
+        arrows: false,
 
-    responsive: [
+        adaptiveHeight: true,
 
-      {
-        breakpoint: 1024,
+        /*
+        ============================================================
+        TABLET + DESKTOP
+        ============================================================
+        */
 
-        settings: {
+        responsive: [
+            {
+                breakpoint: 768,
 
-          slidesToShow: 2,
+                settings: {
+                    slidesToShow: 2,
 
-        },
+                    slidesToScroll: 1,
 
-      },
+                    arrows: false,
 
-      {
-        breakpoint: 768,
+                    adaptiveHeight: true,
+                },
+            },
 
-        settings: {
+            {
+                breakpoint: 1200,
 
-          slidesToShow: 1,
+                settings: {
+                    slidesToShow: 3,
 
-          arrows: false,
+                    slidesToScroll: 1,
 
-        },
+                    arrows: true,
 
-      },
+                    adaptiveHeight: false,
+                },
+            },
+        ],
+    };
 
-    ],
-
-  };
-
-  return (
-
-    <section
-  style={{
-    paddingTop: '2rem',    // py-24
-    paddingBottom: '2rem', // py-24
-    paddingLeft: '2rem',   // added
-    paddingRight: '2rem',  // added
-    backgroundColor: '#F9FAFB' // bg-gray-50
-  }}
->
-
-  <div
-    style={{
-      maxWidth: '80rem', // max-w-7xl
-      margin: '0 auto',  
-      paddingLeft: '1.5rem',  // px-6
-      paddingRight: '1.5rem'  // px-6
-    }}
-  >
-
-    {/* Section Header */}
-    <div 
-      style={{
-        textAlign: 'center',
-        marginBottom: '4rem' // mb-16
-      }}
-    >
-
-      <h2
-        style={{
-          fontSize: '2.25rem', // text-4xl
-          fontWeight: 700,
-          color: '#111827', // text-gray-900
-          fontFamily: 'Poppins, sans-serif',
-          paddingTop: '1rem',     // added padding
-          paddingBottom: '1rem',  // added padding
-          paddingLeft: '1rem',    // added padding
-          paddingRight: '1rem',   // added padding
-          margin: 0
-        }}
-      >
-        What Our Community Says
-      </h2>
-
-      <p
-        style={{
-          marginTop: '0.4rem', // mt-4
-          color: '#6B7280', // text-gray-500
-          fontSize: '1.125rem', // text-lg
-          maxWidth: '48rem', // max-w-3xl
-          margin: '1rem auto 0 auto', // mx-auto
-          lineHeight: '2rem', // leading-8
-          paddingLeft: '1rem',   // added padding
-          paddingRight: '1rem'   // added padding
-        }}
-      >
-        Hear directly from parents, students,
-        teachers and alumni whose lives have
-        been positively impacted by
-        Sound Peace International Schools.
-      </p>
-
-    </div>
-
-    <Slider {...settings}>
-
-      {
-        testimonialsData.map((testimonial) => (
-          <div
-            key={testimonial.id}
+    return (
+        <section
             style={{
-              paddingLeft: '1rem',  // px-4
-              paddingRight: '1rem'  // px-4
-            }}
-          >
+                width: "100%",
+                maxWidth: "100%",
+                boxSizing: "border-box",
 
-            {/* Wrapper to add padding around each card for spacing */}
+                paddingTop: "5rem",
+                paddingBottom: "5rem",
+
+                paddingLeft:
+                    "clamp(1rem, 4vw, 2.5rem)",
+
+                paddingRight:
+                    "clamp(1rem, 4vw, 2.5rem)",
+
+                backgroundColor: "#F9FAFB",
+
+                overflow: "hidden",
+            }}
+        >
+
+            {/* =====================================================
+                SECTION HEADER
+            ===================================================== */}
+
             <div
-              style={{
-                paddingTop: '1rem',
-                paddingBottom: '1rem',
-                paddingLeft: '1rem',
-                paddingRight: '1rem',
-                height: '100%'
-              }}
+                style={{
+                    width: "100%",
+                    maxWidth: "900px",
+
+                    margin:
+                        "0 auto 3rem auto",
+
+                    paddingLeft:
+                        "clamp(0.5rem, 2vw, 1rem)",
+
+                    paddingRight:
+                        "clamp(0.5rem, 2vw, 1rem)",
+
+                    boxSizing: "border-box",
+
+                    textAlign: "center",
+                }}
             >
-              <TestimonialCard
-                testimonial={testimonial}
-              />
+
+                <h2
+                    style={{
+                        margin: 0,
+
+                        fontFamily:
+                            "Poppins, Arial, sans-serif",
+
+                        fontSize:
+                            "clamp(1.75rem, 5vw, 2.5rem)",
+
+                        fontWeight: 700,
+
+                        lineHeight: 1.2,
+
+                        color: "#111827",
+
+                        overflowWrap: "normal",
+
+                        wordBreak: "normal",
+                    }}
+                >
+                    What Our Community Says
+                </h2>
+
+                <p
+                    style={{
+                        width: "100%",
+
+                        maxWidth: "760px",
+
+                        margin:
+                            "1.25rem auto 0 auto",
+
+                        fontFamily:
+                            '"Open Sans", Arial, sans-serif',
+
+                        fontSize:
+                            "clamp(0.95rem, 2.5vw, 1.125rem)",
+
+                        lineHeight: 1.8,
+
+                        color: "#6B7280",
+
+                        textAlign: "center",
+
+                        overflowWrap: "normal",
+
+                        wordBreak: "normal",
+                    }}
+                >
+                    Hear directly from parents, students,
+                    teachers and alumni whose lives have
+                    been positively impacted by
+                    Sound Peace International Schools.
+                </p>
+
             </div>
 
-          </div>
-        ))
-      }
 
-    </Slider>
+            {/* =====================================================
+                SLIDER CONTAINER
+            ===================================================== */}
 
-  </div>
+            <div
+                style={{
+                    width: "100%",
+                    maxWidth: "1400px",
 
-</section>
+                    margin: "0 auto",
 
-  );
+                    boxSizing: "border-box",
+                }}
+            >
 
+                <Slider {...settings}>
+
+                    {testimonialsData.map(
+                        (testimonial) => (
+                            <div
+                                key={testimonial.id}
+                                style={{
+                                    width: "100%",
+
+                                    boxSizing:
+                                        "border-box",
+
+                                    padding:
+                                        "0.75rem",
+
+                                    outline: "none",
+                                }}
+                            >
+
+                                <div
+                                    style={{
+                                        width: "100%",
+
+                                        maxWidth:
+                                            "430px",
+
+                                        margin:
+                                            "0 auto",
+
+                                        boxSizing:
+                                            "border-box",
+                                    }}
+                                >
+
+                                    <TestimonialCard
+                                        testimonial={
+                                            testimonial
+                                        }
+                                    />
+
+                                </div>
+
+                            </div>
+                        )
+                    )}
+
+                </Slider>
+
+            </div>
+
+        </section>
+    );
 }

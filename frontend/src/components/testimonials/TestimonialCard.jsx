@@ -338,7 +338,6 @@ export default function TestimonialCard({ testimonial }) {
                          * If the parent uses CSS Grid with 3 columns,
                          * this makes the testimonial span the entire row.
                          */
-                        grid-column: 1 / -1;
 
                         width: 100%;
 
