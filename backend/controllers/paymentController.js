@@ -37,7 +37,7 @@ console.log("Admission Found:");
     const reference =
       generatePaymentReference();
 
-    const amount = 50000; // ₦500 Admission Form Fee
+    const amount = 15000; // ₦15000 Admission Form Fee
 
     const payment = await Payment.create({
       admission: admission._id,
@@ -63,9 +63,7 @@ console.log("Admission Found:");
     const paystack =
       await initializePaystackPayment({
         email: payment.payerEmail,
-
-        amount: amount * 100,
-
+        amount: amount * 100, // Convert to kobo
         reference,
 
         callback_url:

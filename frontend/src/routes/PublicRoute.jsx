@@ -31,7 +31,6 @@ import Contact from "../pages/Contact";
 import NotFound from "../pages/NotFound";
 import PaymentVerify from "../pages/payment/PaymentVerify";
 import SecurePayment from "../pages/payment/SecurePayment";
-import VerifyPayment from "../pages/payment/VerifyPayment";
 import PaymentReceipt from "../pages/payment/PaymentReceipt";
 
 export default function PublicRoutes() {
@@ -87,9 +86,8 @@ export default function PublicRoutes() {
 
                 <Route path="*" element={<NotFound />} />
 
-                <Route path="/payment/verify" element={<PaymentVerify />} />
+                <Route path="/payment/callback" element={<PaymentVerify />} />
                 <Route path="/secure-payment" element={<SecurePayment />} />
-                <Route path="/payment/verify" element={<VerifyPayment />} />
                 <Route path="/payment/receipt" element={<PaymentReceipt />} />
             </Route>
 

@@ -14,14 +14,19 @@ export const initializePaystackPayment = async ({
   metadata,
 }) => {
   try {
-    // console.log("\n========== PAYSTACK REQUEST ==========");
-    // console.log("Secret Key:", process.env.PAYSTACK_SECRET_KEY);
-    // console.log("Email:", email);
-    // console.log("Amount:", amount);
-    // console.log("Reference:", reference);
-    // console.log("Callback URL:", callback_url);
-    // console.log("Metadata:", metadata);
-    // console.log("======================================\n");
+    if (!process.env.PAYSTACK_SECRET_KEY) {
+      throw new Error(
+        "PAYSTACK_SECRET_KEY is not configured on the server."
+      );
+    }
+
+    if (!email) {
+      throw new Error("Payer email is required.");
+    }
+
+    if (!amount || amount <= 0) {
+      throw new Error("Payment amount must be greater than zero.");
+    }
 
     const response = await axios.post(
       "https://api.paystack.co/transaction/initialize",
@@ -41,19 +46,20 @@ export const initializePaystackPayment = async ({
     );
 
     return response.data;
-
   } catch (error) {
-  // console.log("\n========== PAYSTACK ERROR ==========");
-  // console.log("Message:", error.message);
-  // console.log("Code:", error.code);
-  // console.log("Status:", error.response?.status);
-  // console.log("Response:", error.response?.data);
-  // console.log("Stack:", error.stack);
-  // console.log("====================================\n");
+    console.error(
+      "Paystack initialization failed:",
+      error.response?.data || error.message
+    );
 
-  throw error;
-}
+    throw new Error(
+      error.response?.data?.message ||
+        error.message ||
+        "Unable to initialize Paystack payment."
+    );
+  }
 };
+
 
 /*
 |--------------------------------------------------------------------------
@@ -76,12 +82,15 @@ export const verifyPaystackPayment = async (reference) => {
 
     return response.data;
   } catch (error) {
-    // console.log("\n========== VERIFY ERROR ==========");
-    // console.log("Reference:", reference);
-    // console.log("Status:", error.response?.status);
-    // console.log("Data:", error.response?.data);
-    // console.log("=================================\n");
+    console.error(
+      "Paystack verification failed:",
+      error.response?.data || error.message
+    );
 
-    throw error;
+    throw new Error(
+      error.response?.data?.message ||
+        error.message ||
+        "Unable to verify Paystack payment."
+    );
   }
 };
