@@ -1,262 +1,392 @@
 import React from "react";
 import logoo from "../assets/images/logoo.png";
 import {
-  FaMapMarkerAlt,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaFacebookF,
-  FaTwitter,
-  FaRss,
+    FaMapMarkerAlt,
+    FaPhoneAlt,
+    FaEnvelope,
+    FaFacebookF,
+    FaInstagram,
+    FaWhatsapp,
 } from "react-icons/fa";
 
 export default function Footer() {
-  return (
-    <footer style={{ width: "100%", backgroundColor: "#0A1F73", color: "#FFFFFF" }}>
-
-      {/* ================= MAIN FOOTER ================= */}
-      <div
-        style={{
-          maxWidth: "1120px",
-          margin: "0 auto",
-          padding: "5rem 2rem", // breathing space top/bottom
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "7rem",
-            flexWrap: "wrap",
-          }}
-        >
-          {/* Logo */}
-          <div style={{ display: "flex", justifyContent: "center", flex: "1 1 400px" }}>
-            <img
-              src={logoo}
-              alt="Sound Peace International Schools"
-              style={{
-                width: "240px",
-                height: "auto",
-                objectFit: "contain",
-                maxWidth: "100%",
-              }}
-            />
-          </div>
-
-          {/* Contact */}
-          <div
+    return (
+        <footer
             style={{
-              flex: "1 1 400px",
-              maxWidth: "420px",
-              textAlign: "left",
+                width: "100%",
+                backgroundColor: "#0A1F73",
+                color: "#FFFFFF",
             }}
-          >
-            <h3
-              style={{
-                color: "#FFD700",
-                fontWeight: 800,
-                fontSize: "1.5rem",
-                textTransform: "uppercase",
-                fontFamily: "Poppins, sans-serif",
-                marginBottom: "2rem",
-                letterSpacing: "1px",
-              }}
-            >
-              Contact Us
-            </h3>
-
-            {/* Address */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
-              <FaMapMarkerAlt style={{ color: "#9DAECF", marginTop: "20px", flexShrink: 0 }} />
-              <p style={{ color: "#9DAECF", lineHeight: 1.8, margin: 0 }}>
-                5, Sound Peace Crescent Opposite
-                <br />
-                ABC Garden, Alababi Road
-                <br />
-                Sojuolu, Ewekoro
-                <br />
-                Ogun State
-              </p>
-            </div>
-
-            {/* Phone */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
-              <FaPhoneAlt style={{ color: "#9DAECF", marginTop: "20px", flexShrink: 0 }} />
-              <p style={{ color: "#9DAECF", lineHeight: 1.8, margin: 0 }}>
-                +234 (0) 803 855 5951
-                <br />
-                +234 (0) 806 226 5559
-              </p>
-            </div>
-
-            {/* Email */}
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
-              <FaEnvelope style={{ color: "#9DAECF", marginTop: "4px", flexShrink: 0 }} />
-              <p style={{ color: "#9DAECF", margin: 0, wordBreak: "break-word" }}>
-                soundpeaceinternationalschools@gmail.com
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      {/* ================= FULL WIDTH DIVIDER ================= */}
-      <div style={{ width: "100%", borderTop: "2px solid #FFFFFF" }}></div>
-
-
-      {/* ================= BOTTOM BAR ================= */}
-      <div
-        style={{
-          padding: "1.5rem 2rem", // padding top right bottom left
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "1.5rem",
-          flexWrap: "wrap",
-          maxWidth: "1120px",
-          margin: "0 auto",
-        }}
-      >
-        <p
-          style={{
-            textAlign: "center",
-            fontSize: "0.875rem",
-            lineHeight: 1.7,
-            fontWeight: 500,
-            margin: 0,
-          }}
         >
-          <span style={{ color: "#FFD700" }}>COPYRIGHT 2026 SOUND PEACE SCHOOLS</span>
-          <span style={{ display: "inline", margin: "0 8px" }}> | </span>
-          <span style={{ color: "#FFD700" }}>ALL RIGHTS RESERVED</span>
-          <span style={{ display: "inline", margin: "0 8px" }}> | </span>
-          WEBSITE BY <strong>Eazzy WebDev</strong>
-        </p>
 
-          {/* Social Icons */}
+            {/* ================= MAIN FOOTER ================= */}
 
-          <div
-            className="
-            flex
-
-            items-center
-
-            gap-5
-
-            text-xl
-            "
-          >
-
-            <a
-              href="#"
-              className="
-              w-10
-              h-10
-
-              rounded-full
-
-              flex
-              items-center
-              justify-center
-
-              bg-white/10
-
-              hover:bg-yellow-400
-
-              hover:text-[#0A1F73]
-
-              transition-all
-
-              duration-300
-              "
+            <div
+                style={{
+                    maxWidth: "1120px",
+                    margin: "0 auto",
+                    padding: "5rem 2rem",
+                }}
             >
-              <FaFacebookF />
-            </a>
 
-            <a
-              href="#"
-              className="
-              w-10
-              h-10
+                <div
+                    style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "7rem",
+                        flexWrap: "wrap",
+                    }}
+                >
 
-              rounded-full
+                    {/* Logo */}
 
-              flex
-              items-center
-              justify-center
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flex: "1 1 400px",
+                        }}
+                    >
 
-              bg-white/10
+                        <img
+                            src={logoo}
+                            alt="Sound Peace International Schools"
+                            style={{
+                                width: "240px",
+                                height: "auto",
+                                objectFit: "contain",
+                                maxWidth: "100%",
+                            }}
+                        />
 
-              hover:bg-yellow-400
+                    </div>
 
-              hover:text-[#0A1F73]
 
-              transition-all
+                    {/* Contact */}
 
-              duration-300
-              "
+                    <div
+                        style={{
+                            flex: "1 1 400px",
+                            maxWidth: "420px",
+                            textAlign: "left",
+                        }}
+                    >
+
+                        <h3
+                            style={{
+                                color: "#FFD700",
+                                fontWeight: 800,
+                                fontSize: "1.5rem",
+                                textTransform: "uppercase",
+                                fontFamily: "Poppins, sans-serif",
+                                marginBottom: "2rem",
+                                letterSpacing: "1px",
+                            }}
+                        >
+                            Contact Us
+                        </h3>
+
+
+                        {/* Address */}
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "flex-start",
+                                gap: "1rem",
+                                marginBottom: "1.5rem",
+                            }}
+                        >
+
+                            <FaMapMarkerAlt
+                                style={{
+                                    color: "#9DAECF",
+                                    marginTop: "20px",
+                                    flexShrink: 0,
+                                }}
+                            />
+
+                            <p
+                                style={{
+                                    color: "#9DAECF",
+                                    lineHeight: 1.8,
+                                    margin: 0,
+                                }}
+                            >
+                                5, Sound Peace Crescent Opposite
+                                <br />
+                                ABC Garden, Alababi Road
+                                <br />
+                                Sojuolu, Ewekoro
+                                <br />
+                                Ogun State
+                            </p>
+
+                        </div>
+
+
+                        {/* Phone */}
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "flex-start",
+                                gap: "1rem",
+                                marginBottom: "1.5rem",
+                            }}
+                        >
+
+                            <FaPhoneAlt
+                                style={{
+                                    color: "#9DAECF",
+                                    marginTop: "20px",
+                                    flexShrink: 0,
+                                }}
+                            />
+
+                            <p
+                                style={{
+                                    color: "#9DAECF",
+                                    lineHeight: 1.8,
+                                    margin: 0,
+                                }}
+                            >
+                                <a
+                                    href="tel:+2348038555951"
+                                    style={{
+                                        color: "#cbd7ee",
+                                        textDecoration: "underline",
+                                    }}
+                                >
+                                    +2348038555951
+                                </a>
+                                <br />
+                                <a
+                                    href="tel:+2348062265559"
+                                    style={{
+                                        color: "#cbd7ee",
+                                        textDecoration: "underline",
+                                    }}
+                                >
+                                    +2348062265559
+                                </a>
+                            </p>
+
+                        </div>
+
+
+                        {/* Email */}
+
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "flex-start",
+                                gap: "1rem",
+                            }}
+                        >
+
+                            <FaEnvelope
+                                style={{
+                                    color: "#9DAECF",
+                                    marginTop: "4px",
+                                    flexShrink: 0,
+                                }}
+                            />
+
+                            <p
+                                style={{
+                                    color: "#9DAECF",
+                                    margin: 0,
+                                    wordBreak: "break-word",
+                                }}
+                            >
+                                soundpeaceinternationalschools@gmail.com
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* ================= FULL WIDTH DIVIDER ================= */}
+
+            <div
+                style={{
+                    width: "100%",
+                    borderTop: "2px solid #FFFFFF",
+                }}
+            ></div>
+
+
+            {/* ================= BOTTOM BAR ================= */}
+
+            <div
+                style={{
+                    padding: "1.5rem 2rem",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: "1.5rem",
+                    flexWrap: "wrap",
+                    maxWidth: "1120px",
+                    margin: "0 auto",
+                }}
             >
-              <FaTwitter />
-            </a>
 
-            <a
-              href="#"
-              className="
-              w-10
-              h-10
+                <p
+                    style={{
+                        textAlign: "center",
+                        fontSize: "0.875rem",
+                        lineHeight: 1.7,
+                        fontWeight: 500,
+                        margin: 0,
+                    }}
+                >
+                    <span style={{ color: "#FFD700" }}>
+                        COPYRIGHT 2026 SOUND PEACE SCHOOLS
+                    </span>
 
-              rounded-full
+                    <span
+                        style={{
+                            display: "inline",
+                            margin: "0 8px",
+                        }}
+                    >
+                        |
+                    </span>
 
-              flex
-              items-center
-              justify-center
+                    <span style={{ color: "#FFD700" }}>
+                        ALL RIGHTS RESERVED
+                    </span>
 
-              bg-white/10
+                    <span
+                        style={{
+                            display: "inline",
+                            margin: "0 8px",
+                        }}
+                    >
+                        |
+                    </span>
 
-              hover:bg-yellow-400
+                    WEBSITE BY <strong>Eazzy WebDev</strong>
+                </p>
 
-              hover:text-[#0A1F73]
 
-              transition-all
+                {/* Social Icons */}
 
-              duration-300
-              "
-            >
-              <FaRss />
-            </a>
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1.25rem",
+                        fontSize: "1.25rem",
+                    }}
+                >
 
-            <a
-              href="mailto:sound.peace.educators@gmail.com"
-              className="
-              w-10
-              h-10
+                    {/* ================= FACEBOOK ================= */}
 
-              rounded-full
+                    <a
+                        href="https://www.facebook.com/share/19KKmDU7aR/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.1)",
+                            color: "#FFFFFF",
+                            textDecoration: "none",
+                            transition: "all 0.3s ease",
+                        }}
+                        aria-label="Facebook"
+                    >
+                        <FaFacebookF />
+                    </a>
 
-              flex
-              items-center
-              justify-center
 
-              bg-white/10
+                    {/* ================= INSTAGRAM ================= */}
 
-              hover:bg-yellow-400
+                    <a
+                        href="https://www.instagram.com/soundpeaceschools_12/?igsh=b2lsNjNncXRneXUz"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.1)",
+                            color: "#FFFFFF",
+                            textDecoration: "none",
+                            transition: "all 0.3s ease",
+                        }}
+                        aria-label="Instagram"
+                    >
+                        <FaInstagram />
+                    </a>
 
-              hover:text-[#0A1F73]
 
-              transition-all
+                    {/* ================= WHATSAPP ================= */}
 
-              duration-300
-              "
-            >
-              <FaEnvelope />
-            </a>
+                    <a
+                        href="https://wa.me/2348038555951"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.1)",
+                            color: "#FFFFFF",
+                            textDecoration: "none",
+                            transition: "all 0.3s ease",
+                        }}
+                        aria-label="WhatsApp"
+                    >
+                        <FaWhatsapp />
+                    </a>
 
-          </div>
-      </div>
-    </footer>
-  );
+
+                    {/* ================= EMAIL ================= */}
+
+                    <a
+                        href="mailto:soundpeaceinternationalschools@gmail.com"
+                        style={{
+                            width: "40px",
+                            height: "40px",
+                            borderRadius: "50%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.1)",
+                            color: "#FFFFFF",
+                            textDecoration: "none",
+                            transition: "all 0.3s ease",
+                        }}
+                        aria-label="Email"
+                    >
+                        <FaEnvelope />
+                    </a>
+
+                </div>
+
+            </div>
+
+        </footer>
+    );
 }
