@@ -5,264 +5,635 @@
 //
 // Features
 // • Fully Responsive
-// • Professional Layout
-// • Equal Height Cards
-// • Modern Hover Animation
-// • Mobile Friendly
-// • Prevents Card Breaking
-// • Smooth Typography Scaling
+// • Mobile-first design
+// • One-column mobile presentation
+// • Multi-column desktop presentation
+// • Prevents text compression
+// • Prevents letter-by-letter breaking
+// • Flexible content height
+// • Premium hover animation
+// • Long-content safe
+// • iPhone optimized
 // ============================================================
 
 import React from "react";
 import { FaQuoteLeft, FaStar } from "react-icons/fa";
 
 export default function TestimonialCard({ testimonial }) {
-  return (
-    <>
-      <style>{`
+    return (
+        <>
+            <style>{`
+                /* =========================================================
+                   MAIN CARD
+                ========================================================= */
 
-      .testimonial-card{
+                .testimonial-card {
+                    position: relative;
 
-        position:relative;
+                    width: 100%;
+                    max-width: 420px;
 
-        width:100%;
-        max-width:420px;
-        min-width:280px;
+                    margin: 0 auto;
 
-        min-height:500px;
+                    background: #FFFFFF;
 
-        background:#FFFFFF;
+                    border-radius: 24px;
 
-        border-radius:24px;
+                    padding: clamp(
+                        1.5rem,
+                        3vw,
+                        2.5rem
+                    );
 
-        overflow:hidden;
+                    box-sizing: border-box;
 
-        padding:clamp(1.4rem,3vw,2.5rem);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
 
-        box-sizing:border-box;
+                    text-align: center;
 
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:flex-start;
+                    box-shadow:
+                        0 10px 30px rgba(0, 0, 0, 0.08);
 
-        text-align:center;
+                    transition:
+                        transform 0.4s ease,
+                        box-shadow 0.4s ease;
 
-        margin-inline:auto;
+                    overflow: hidden;
 
-        box-shadow:0 10px 30px rgba(0,0,0,.08);
+                    /* Important for grid layouts */
+                    min-width: 0;
+                }
 
-        transition:
-        transform .45s ease,
-        box-shadow .45s ease;
 
-      }
+                /* =========================================================
+                   HOVER
+                ========================================================= */
 
-      .testimonial-card:hover{
+                .testimonial-card:hover {
+                    transform: translateY(-8px);
 
-        transform:translateY(-8px);
+                    box-shadow:
+                        0 20px 45px rgba(0, 0, 0, 0.12);
+                }
 
-        box-shadow:0 20px 45px rgba(0,0,0,.12);
 
-      }
+                /* =========================================================
+                   QUOTE ICON
+                ========================================================= */
 
-      .quote-icon{
+                .quote-icon {
+                    position: absolute;
 
-        position:absolute;
+                    top: 22px;
+                    right: 22px;
 
-        top:24px;
-        right:24px;
+                    font-size: clamp(
+                        48px,
+                        7vw,
+                        78px
+                    );
 
-        font-size:clamp(55px,7vw,80px);
+                    color: #DBEAFE;
 
-        color:#DBEAFE;
+                    opacity: 0.55;
 
-        opacity:.55;
+                    pointer-events: none;
 
-        pointer-events:none;
+                    z-index: 0;
+                }
 
-      }
 
-      .testimonial-image{
+                /* =========================================================
+                   PROFILE IMAGE
+                ========================================================= */
 
-        width:clamp(82px,15vw,112px);
+                .testimonial-image {
+                    position: relative;
 
-        height:clamp(82px,15vw,112px);
+                    z-index: 2;
 
-        border-radius:50%;
+                    width: clamp(
+                        82px,
+                        14vw,
+                        112px
+                    );
 
-        object-fit:cover;
+                    height: clamp(
+                        82px,
+                        14vw,
+                        112px
+                    );
 
-        border:4px solid #FFFFFF;
+                    min-width: 82px;
+                    min-height: 82px;
 
-        box-shadow:0 8px 18px rgba(0,0,0,.12);
+                    border-radius: 50%;
 
-      }
+                    object-fit: cover;
 
-      .testimonial-name{
+                    border: 4px solid #FFFFFF;
 
-        margin-top:1.4rem;
+                    box-shadow:
+                        0 8px 18px rgba(0, 0, 0, 0.12);
 
-        font-family:Poppins,sans-serif;
+                    flex-shrink: 0;
+                }
 
-        font-weight:700;
 
-        font-size:clamp(1.15rem,2.8vw,1.5rem);
+                /* =========================================================
+                   NAME
+                ========================================================= */
 
-        color:#111827;
+                .testimonial-name {
+                    position: relative;
 
-        line-height:1.3;
+                    z-index: 2;
 
-        word-break:break-word;
+                    width: 100%;
 
-      }
+                    margin: 1.35rem 0 0;
 
-      .testimonial-role{
+                    font-family:
+                        Poppins,
+                        Arial,
+                        sans-serif;
 
-        margin-top:.9rem;
+                    font-weight: 700;
 
-        background:var(--badge-color);
+                    font-size: clamp(
+                        1.15rem,
+                        2.5vw,
+                        1.5rem
+                    );
 
-        color:#fff;
+                    line-height: 1.3;
 
-        padding:.55rem 1.15rem;
+                    color: #111827;
 
-        border-radius:999px;
+                    /*
+                     * IMPORTANT:
+                     * Do NOT break words into individual letters.
+                     */
+                    word-break: normal;
 
-        font-weight:600;
+                    overflow-wrap: break-word;
 
-        font-size:clamp(.75rem,2vw,.9rem);
+                    white-space: normal;
+                }
 
-        letter-spacing:.3px;
 
-        max-width:100%;
+                /* =========================================================
+                   ROLE BADGE
+                ========================================================= */
 
-        word-break:break-word;
+                .testimonial-role {
+                    position: relative;
 
-      }
+                    z-index: 2;
 
-      .stars{
+                    display: inline-flex;
 
-        display:flex;
+                    align-items: center;
+                    justify-content: center;
 
-        gap:4px;
+                    width: fit-content;
 
-        margin-top:1.2rem;
+                    max-width: 100%;
 
-      }
+                    margin-top: 0.9rem;
 
-      .testimonial-message{
+                    padding:
+                        0.65rem
+                        1.25rem;
 
-        margin-top:1.5rem;
+                    background: var(--badge-color);
 
-        font-family:"Open Sans",sans-serif;
+                    color: #FFFFFF;
 
-        font-size:clamp(.92rem,2vw,1rem);
+                    border-radius: 999px;
 
-        line-height:1.85;
+                    font-family:
+                        Poppins,
+                        Arial,
+                        sans-serif;
 
-        color:#4B5563;
+                    font-weight: 600;
 
-        flex:1;
+                    font-size: clamp(
+                        0.78rem,
+                        2vw,
+                        0.92rem
+                    );
 
-        word-break:break-word;
+                    line-height: 1.3;
 
-        overflow-wrap:anywhere;
+                    letter-spacing: 0.3px;
 
-      }
+                    text-align: center;
 
-      @media(max-width:768px){
+                    /*
+                     * Keep complete words together.
+                     */
+                    word-break: normal;
 
-        .testimonial-card{
+                    overflow-wrap: break-word;
 
-          max-width:100%;
+                    white-space: normal;
+                }
 
-          min-width:unset;
 
-          min-height:460px;
+                /* =========================================================
+                   STARS
+                ========================================================= */
 
-          border-radius:20px;
+                .stars {
+                    position: relative;
 
-        }
+                    z-index: 2;
 
-      }
+                    display: flex;
 
-      @media(max-width:480px){
+                    align-items: center;
+                    justify-content: center;
 
-        .testimonial-card{
+                    gap: 5px;
 
-          padding:1.4rem;
+                    margin-top: 1.25rem;
 
-          min-height:430px;
+                    flex-wrap: nowrap;
+                }
 
-        }
 
-      }
+                /* =========================================================
+                   MESSAGE
+                ========================================================= */
 
-      `}</style>
+                .testimonial-message {
+                    position: relative;
 
-      <div
-        className="testimonial-card"
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "translateY(-8px)";
-          e.currentTarget.style.boxShadow =
-            "0 20px 45px rgba(0,0,0,.12)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "translateY(0)";
-          e.currentTarget.style.boxShadow =
-            "0 10px 30px rgba(0,0,0,.08)";
-        }}
-      >
-        {/* Quote Icon */}
+                    z-index: 2;
 
-        <FaQuoteLeft className="quote-icon" />
+                    width: 100%;
 
-        {/* Profile Image */}
+                    margin: 1.5rem 0 0;
 
-        <img
-          src={testimonial.image}
-          alt={testimonial.name}
-          className="testimonial-image"
-        />
+                    font-family:
+                        "Open Sans",
+                        Arial,
+                        sans-serif;
 
-        {/* Name */}
+                    font-size: clamp(
+                        0.95rem,
+                        2vw,
+                        1.05rem
+                    );
 
-        <h3 className="testimonial-name">
-          {testimonial.name}
-        </h3>
+                    line-height: 1.85;
 
-        {/* Role */}
+                    color: #4B5563;
 
-        <span
-          className="testimonial-role"
-          style={{
-            "--badge-color": testimonial.badgeColor,
-          }}
-        >
-          {testimonial.role}
-        </span>
+                    text-align: center;
 
-        {/* Rating */}
+                    /*
+                     * Allow normal wrapping.
+                     * Never split every word into letters.
+                     */
+                    word-break: normal;
 
-        <div className="stars">
-          {[...Array(testimonial.rating)].map((_, index) => (
-            <FaStar
-              key={index}
-              style={{
-                color: "#FACC15",
-                fontSize: "clamp(14px,2vw,18px)",
-              }}
-            />
-          ))}
-        </div>
+                    overflow-wrap: break-word;
 
-        {/* Message */}
+                    white-space: normal;
 
-        <p className="testimonial-message">
-          {testimonial.message}
-        </p>
-      </div>
-    </>
-  );
+                    hyphens: none;
+                }
+
+
+                /* =========================================================
+                   TABLET
+                ========================================================= */
+
+                @media (max-width: 900px) {
+
+                    .testimonial-card {
+                        max-width: 390px;
+
+                        padding: 1.6rem;
+                    }
+
+                }
+
+
+                /* =========================================================
+                   MOBILE
+                ========================================================= */
+
+                @media (max-width: 768px) {
+
+                    .testimonial-card {
+
+                        /*
+                         * CRITICAL:
+                         * If the parent uses CSS Grid with 3 columns,
+                         * this makes the testimonial span the entire row.
+                         */
+                        grid-column: 1 / -1;
+
+                        width: 100%;
+
+                        max-width: 100%;
+
+                        min-width: 0;
+
+                        margin-left: auto;
+                        margin-right: auto;
+
+                        padding:
+                            1.6rem
+                            1.25rem;
+
+                        border-radius: 20px;
+
+                        box-shadow:
+                            0 8px 25px
+                            rgba(0, 0, 0, 0.07);
+                    }
+
+
+                    .testimonial-image {
+
+                        width: 96px;
+                        height: 96px;
+
+                        min-width: 96px;
+                        min-height: 96px;
+                    }
+
+
+                    .testimonial-name {
+
+                        font-size: 1.3rem;
+
+                        line-height: 1.35;
+
+                        margin-top: 1.2rem;
+                    }
+
+
+                    .testimonial-role {
+
+                        font-size: 0.86rem;
+
+                        padding:
+                            0.6rem
+                            1.15rem;
+
+                        max-width: 90%;
+                    }
+
+
+                    .testimonial-message {
+
+                        font-size: 1rem;
+
+                        line-height: 1.8;
+
+                        padding:
+                            0 0.25rem;
+                    }
+
+                }
+
+
+                /* =========================================================
+                   SMALL PHONES
+                ========================================================= */
+
+                @media (max-width: 480px) {
+
+                    .testimonial-card {
+
+                        width: 100%;
+
+                        padding:
+                            1.5rem
+                            1.1rem;
+
+                        border-radius: 18px;
+                    }
+
+
+                    .quote-icon {
+
+                        top: 16px;
+                        right: 16px;
+
+                        font-size: 50px;
+                    }
+
+
+                    .testimonial-image {
+
+                        width: 88px;
+                        height: 88px;
+
+                        min-width: 88px;
+                        min-height: 88px;
+
+                        border-width: 3px;
+                    }
+
+
+                    .testimonial-name {
+
+                        font-size: 1.25rem;
+
+                        line-height: 1.35;
+                    }
+
+
+                    .testimonial-role {
+
+                        font-size: 0.82rem;
+
+                        padding:
+                            0.58rem
+                            1rem;
+                    }
+
+
+                    .stars {
+
+                        gap: 4px;
+
+                        margin-top: 1.1rem;
+                    }
+
+
+                    .testimonial-message {
+
+                        font-size: 0.98rem;
+
+                        line-height: 1.8;
+
+                        margin-top: 1.3rem;
+                    }
+
+                }
+
+
+                /* =========================================================
+                   VERY SMALL PHONES
+                ========================================================= */
+
+                @media (max-width: 360px) {
+
+                    .testimonial-card {
+
+                        padding:
+                            1.35rem
+                            1rem;
+                    }
+
+
+                    .testimonial-image {
+
+                        width: 82px;
+                        height: 82px;
+
+                        min-width: 82px;
+                        min-height: 82px;
+                    }
+
+
+                    .testimonial-name {
+
+                        font-size: 1.15rem;
+                    }
+
+
+                    .testimonial-message {
+
+                        font-size: 0.95rem;
+
+                        line-height: 1.75;
+                    }
+
+                }
+
+
+                /* =========================================================
+                   TOUCH DEVICES
+                ========================================================= */
+
+                @media (hover: none) {
+
+                    .testimonial-card:hover {
+
+                        transform: none;
+
+                        box-shadow:
+                            0 10px 30px
+                            rgba(0, 0, 0, 0.08);
+                    }
+
+                }
+
+            `}</style>
+
+            <div
+                className="testimonial-card"
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform =
+                        "translateY(-8px)";
+
+                    e.currentTarget.style.boxShadow =
+                        "0 20px 45px rgba(0,0,0,.12)";
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.transform =
+                        "translateY(0)";
+
+                    e.currentTarget.style.boxShadow =
+                        "0 10px 30px rgba(0,0,0,.08)";
+                }}
+            >
+
+                {/* =====================================================
+                    QUOTE ICON
+                ===================================================== */}
+
+                <FaQuoteLeft className="quote-icon" />
+
+
+                {/* =====================================================
+                    PROFILE IMAGE
+                ===================================================== */}
+
+                <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="testimonial-image"
+                />
+
+
+                {/* =====================================================
+                    NAME
+                ===================================================== */}
+
+                <h3 className="testimonial-name">
+                    {testimonial.name}
+                </h3>
+
+
+                {/* =====================================================
+                    ROLE
+                ===================================================== */}
+
+                <span
+                    className="testimonial-role"
+                    style={{
+                        "--badge-color":
+                            testimonial.badgeColor,
+                    }}
+                >
+                    {testimonial.role}
+                </span>
+
+
+                {/* =====================================================
+                    RATING
+                ===================================================== */}
+
+                <div
+                    className="stars"
+                    aria-label={`${testimonial.rating} out of 5 stars`}
+                >
+                    {[...Array(testimonial.rating)].map(
+                        (_, index) => (
+                            <FaStar
+                                key={index}
+                                style={{
+                                    color: "#FACC15",
+                                    fontSize:
+                                        "clamp(15px,2vw,18px)",
+                                }}
+                            />
+                        )
+                    )}
+                </div>
+
+
+                {/* =====================================================
+                    MESSAGE
+                ===================================================== */}
+
+                <p className="testimonial-message">
+                    {testimonial.message}
+                </p>
+
+            </div>
+        </>
+    );
 }

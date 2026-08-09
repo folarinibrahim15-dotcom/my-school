@@ -85,7 +85,7 @@ export default function Footer() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
               <FaPhoneAlt style={{ color: "#9DAECF", marginTop: "20px", flexShrink: 0 }} />
               <p style={{ color: "#9DAECF", lineHeight: 1.8, margin: 0 }}>
-                +234 (0) 813 855 5951
+                +234 (0) 803 855 5951
                 <br />
                 +234 (0) 806 226 5559
               </p>
@@ -95,7 +95,7 @@ export default function Footer() {
             <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
               <FaEnvelope style={{ color: "#9DAECF", marginTop: "4px", flexShrink: 0 }} />
               <p style={{ color: "#9DAECF", margin: 0, wordBreak: "break-word" }}>
-                sound.peace.educators@gmail.com
+                soundpeaceinternationalschools@gmail.com
               </p>
             </div>
           </div>
