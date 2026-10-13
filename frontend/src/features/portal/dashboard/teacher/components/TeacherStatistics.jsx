@@ -14,16 +14,26 @@ export default function TeacherStatistics({
 
     /*
     |--------------------------------------------------------------------------
-    | Statistics
+    | Statistics - NOW READS REAL EDITED DATA
     |--------------------------------------------------------------------------
     */
     const totalTeachers = teacherList.length;
-    const activeTeachers = teacherList.filter((teacher) => teacher?.isActive === true).length;
+
+    // Reads edited status field first, falls back to isActive boolean
+    const activeTeachers = teacherList.filter((teacher) => {
+        if (teacher?.status) {
+            return teacher.status === "Active";
+        }
+        // fallback for old data
+        return teacher?.isActive === true;
+    }).length;
+
     const totalDepartments = new Set(
         teacherList
             .map((teacher) => teacher.department || teacher.specialization)
             .filter(Boolean)
     ).size;
+    
     const totalSubjects = new Set(
         teacherList.flatMap((teacher) => {
             if (Array.isArray(teacher.subjects)) {
@@ -31,6 +41,9 @@ export default function TeacherStatistics({
             }
             if (teacher.subject) {
                 return [teacher.subject];
+            }
+            if (teacher.qualification) {
+                return [teacher.qualification];
             }
             return [];
         })
@@ -41,46 +54,46 @@ export default function TeacherStatistics({
             title: "Total Teachers",
             value: totalTeachers,
             icon: HiUsers,
-            bg: "#dbeafe", // bg-blue-100
-            iconBg: "#1d4ed8", // text-blue-700
+            bg: "#dbeafe",
+            iconBg: "#1d4ed8",
         },
         {
             title: "Active Teachers",
             value: activeTeachers,
             icon: HiCheckCircle,
-            bg: "#dcfce7", // bg-green-100
-            iconBg: "#15803d", // text-green-700
+            bg: "#dcfce7",
+            iconBg: "#15803d",
         },
         {
             title: "Departments",
             value: totalDepartments,
             icon: HiBuildingOffice2,
-            bg: "#f3e8ff", // bg-purple-100
-            iconBg: "#7c3aed", // text-purple-700
+            bg: "#f3e8ff",
+            iconBg: "#7c3aed",
         },
         {
             title: "Subjects",
             value: totalSubjects,
             icon: HiAcademicCap,
-            bg: "#ffedd5", // bg-orange-100
-            iconBg: "#c2410c", // text-orange-700
+            bg: "#ffedd5",
+            iconBg: "#c2410c",
         },
     ];
 
     const grid = {
         display: "grid",
-        gridTemplateColumns: "1fr", // mobile: 1 col
-        gap: "1.5rem", // gap-6
+        gridTemplateColumns: "1fr",
+        gap: "1.5rem",
         width: "100%",
         boxSizing: "border-box"
     };
 
     const gridResponsive = `
         @media (min-width: 640px) {
-            .teacher-stats-grid { grid-template-columns: repeat(2, 1fr) !important; } /* sm: 2 col */
+            .teacher-stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (min-width: 1280px) {
-            .teacher-stats-grid { grid-template-columns: repeat(4, 1fr) !important; } /* xl: 4 col */
+            .teacher-stats-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
         @keyframes teacherPulse {
             0%, 100% { opacity: 1; }
@@ -90,10 +103,10 @@ export default function TeacherStatistics({
 
     const cardBaseStyle = {
         backgroundColor: "#ffffff",
-        borderRadius: "1.5rem", // rounded-2xl
+        borderRadius: "1.5rem",
         border: "1px solid #e5e7eb",
         boxShadow: "0 4px 18px rgba(15, 23, 42, 0.06)",
-        padding: "clamp(20px, 4vw, 1.5rem)", // p-6 responsive
+        padding: "clamp(20px, 4vw, 1.5rem)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -111,17 +124,17 @@ export default function TeacherStatistics({
     };
 
     const skeletonLine1 = {
-        height: "1rem", // h-4
-        width: "6rem", // w-24
-        backgroundColor: "#e5e7eb", // bg-gray-200
+        height: "1rem",
+        width: "6rem",
+        backgroundColor: "#e5e7eb",
         borderRadius: "0.5rem",
         marginBottom: "1rem"
     };
 
     const skeletonLine2 = {
-        height: "2.5rem", // h-10
-        width: "5rem", // w-20
-        backgroundColor: "#e5e7eb", // bg-gray-200
+        height: "2.5rem",
+        width: "5rem",
+        backgroundColor: "#e5e7eb",
         borderRadius: "0.5rem"
     };
 
@@ -131,24 +144,24 @@ export default function TeacherStatistics({
     };
 
     const cardTitle = {
-        fontSize: "0.875rem", // text-sm
-        color: "#64748b", // text-gray-500
+        fontSize: "0.875rem",
+        color: "#64748b",
         margin: 0,
         fontWeight: 500
     };
 
     const cardValue = {
-        fontSize: "clamp(1.75rem, 4vw, 1.875rem)", // text-3xl responsive
+        fontSize: "clamp(1.75rem, 4vw, 1.875rem)",
         fontWeight: "700",
-        color: "#0f172a", // text-slate-800
+        color: "#0f172a",
         margin: "0.5rem 0 0 0",
         lineHeight: 1.2
     };
 
     const iconBox = (bg, color) => ({
-        width: "3.5rem", // w-14
-        height: "3.5rem", // h-14
-        borderRadius: "1rem", // rounded-2xl
+        width: "3.5rem",
+        height: "3.5rem",
+        borderRadius: "1rem",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

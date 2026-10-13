@@ -87,25 +87,32 @@ export default function AdmissionDetails() {
                         alignItems: "flex-start"
                     }}
                 >
-                    {/* Image */}
-                    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-                        <img
-                            src={
-                                admission.documents?.[0]?.url ||
-                                `https://ui-avatars.com/api/?name=${admission.firstName}+${admission.lastName}&size=300`
-                            }
-                            alt={admission.firstName}
-                            style={{
-                                width: "13rem", // w-52
-                                height: "13rem", // h-52
-                                borderRadius: "1.5rem", // rounded-3xl
-                                objectFit: "cover",
-                                border: "1px solid #e5e7eb",
-                                flexShrink: 0
-                            }}
-                        />
-                    </div>
-
+                                    {/* Image - FIXED TO SHOW UPLOADED PASSPORT */}
+                <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+                <img
+                    src={
+                    admission.passportPhoto?.url ||
+                    admission.passport?.url ||
+                    admission.passportPhoto ||
+                    admission.passport ||
+                    `https://ui-avatars.com/api/?name=${encodeURIComponent(`${admission.firstName || ""} ${admission.lastName || ""}`)}&background=0B3D91&color=FFD700&size=300`
+                    }
+                    alt={`${admission.firstName || "Applicant"}'s passport`}
+                    onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(`${admission.firstName || ""} ${admission.lastName || ""}`)}&size=300`;
+                    }}
+                    style={{
+                    width: "13rem",
+                    height: "13rem",
+                    borderRadius: "1.5rem",
+                    objectFit: "cover",
+                    border: "2px solid #E5E7EB",
+                    boxShadow: "0 8px 20px rgba(0,0,0,.08)",
+                    flexShrink: 0
+                    }}
+                />
+                </div>
                     {/* Info */}
                     <div style={{ flex: 1, width: "100%" }}>
                         <div

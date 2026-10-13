@@ -8,47 +8,44 @@ export const paymentApi = apiSlice.injectEndpoints({
     | Initialize Payment
     |--------------------------------------------------------------------------
     */
-
     initializePayment: builder.mutation({
       query: (body) => ({
         url: "/payments/initialize",
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Payments"],
+    }),
+
+    initializeSchoolFeesPayment: builder.mutation({
+        query:(body)=>({
+            url:"/payments/school-fees",
+            method:"POST",
+            body,
+        }),
+        invalidatesTags: ["Payments"],
+    }),
+
+    verifyPayment: builder.query({
+      query: (reference) => `/payments/verify/${reference}`,
+    }),
+
+    getPaymentReceipt: builder.query({
+        query: (reference) => `/payments/receipt/${reference}`,
     }),
 
     /*
     |--------------------------------------------------------------------------
-    | Verify Payment
+    | GET ALL PAYMENTS - ADDED FOR FINANCE STATS
     |--------------------------------------------------------------------------
     */
-
-    initializeSchoolFeesPayment: builder.mutation({
-
-        query:(body)=>({
-
-            url:"/payments/school-fees",
-
-            method:"POST",
-
-            body,
-
-        }),
-
+    getPayments: builder.query({
+      query: (params = {}) => ({
+        url: "/payments",
+        params,
+      }),
+      providesTags: ["Payments"],
     }),
-
-    verifyPayment: builder.query({
-      query: (reference) =>
-        `/payments/verify/${reference}`,
-    }),
-
-    getPaymentReceipt: builder.query({
-
-    query: (reference) =>
-
-        `/payments/receipt/${reference}`,
-
-}),
 
   }),
 });
@@ -59,4 +56,5 @@ export const {
   useLazyVerifyPaymentQuery,
   useInitializeSchoolFeesPaymentMutation,
   useGetPaymentReceiptQuery,
+  useGetPaymentsQuery, // NOW EXPORTED
 } = paymentApi;

@@ -178,29 +178,19 @@ export default function EditAdmissionModal({
     */
 
     const handleSubmit = async (e) => {
-
-        e.preventDefault();
-
-        try {
-
-            await updateAdmission({
-
-                id: admission._id,
-
-                data: formData,
-
-            }).unwrap();
-
-            onClose();
-
-        } catch (err) {
-
-            console.error("Update Error:", err);
-
-        }
-
-    };
-
+    e.preventDefault();
+    try {
+        console.log("Updating status to:", formData.status);
+        await updateAdmission({
+            id: admission._id,
+            data: formData, // now will work with the fixed api
+        }).unwrap();
+        onClose();
+    } catch (err) {
+        console.error("Update Error:", err);
+        console.error("Full error:", err?.data);
+    }
+};
     if (!open) return null;
 
     /*

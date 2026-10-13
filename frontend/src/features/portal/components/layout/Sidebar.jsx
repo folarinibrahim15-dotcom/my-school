@@ -25,9 +25,9 @@ export default function Sidebar() {
     const [logoutUser] = useLogoutMutation();
 
     /*
-    ==========================================================
+
     Logged-in User
-    ==========================================================
+
     */
 
     const { user } = useSelector(
@@ -35,17 +35,17 @@ export default function Sidebar() {
     );
 
     /*
-    ==========================================================
+
     Current Role
-    ==========================================================
+
     */
 
     const role = user?.role || "admin";
 
     /*
-    ==========================================================
+
     User Full Name
-    ==========================================================
+
     */
 
     const fullName =
@@ -55,23 +55,23 @@ export default function Sidebar() {
         "Administrator";
 
     /*
-    ==========================================================
+
     Avatar Initials
-    ==========================================================
+
     */
 
     const initials =
 
         `${user?.firstName?.charAt(0) || ""}${user?.lastName?.charAt(0) || ""}`
 
-            .toUpperCase() ||
+           .toUpperCase() ||
 
         "A";
 
     /*
-    ==========================================================
+
     Logout
-    ==========================================================
+
     */
 
     const handleLogout = async () => {
@@ -106,9 +106,13 @@ export default function Sidebar() {
                 transition: 'all 300ms ease',
                 display: 'flex',
                 flexDirection: 'column',
-                width: collapsed ? '6rem' : '18rem',
+                width: collapsed? '6rem' : '18rem',
                 flexShrink: 0,
-                overflow: 'hidden'
+                overflow: 'hidden',
+                position: 'sticky',
+                top: 0,
+                left: 0,
+                alignSelf: 'flex-start'
             }}
         >
             {/* =======================================================
@@ -159,7 +163,7 @@ export default function Sidebar() {
                         justifyContent: 'center'
                     }}
                 >
-                    {collapsed ? (
+                    {collapsed? (
                         <HiChevronDoubleRight size={22} />
                     ) : (
                         <HiChevronDoubleLeft size={22} />
@@ -226,7 +230,7 @@ export default function Sidebar() {
                     backgroundColor: '#020617'
                 }}
             >
-                {!collapsed ? (
+                {!collapsed? (
                     <>
                         {/* User Profile */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

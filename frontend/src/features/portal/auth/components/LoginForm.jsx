@@ -100,9 +100,35 @@ export default function LoginForm() {
           display: 'flex',
           flexDirection: 'column',
           gap: '1.25rem',
-          width: '100%'
+          width: '100%',
+          position: 'relative'
       }}
     >
+      {/* BACK TO WEBSITE - Added to match uploaded image */}
+      <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: '0.5rem',
+          marginTop: '-0.5rem'
+      }}>
+        <Link
+          to="/"
+          style={{
+              fontSize: '0.7rem',
+              fontWeight: '500',
+              color: '#111827',
+              textDecoration: 'none',
+              letterSpacing: '0.1em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              textTransform: 'uppercase'
+          }}
+        >
+          <span style={{ fontSize: '1.4rem' }}>←</span> BACK TO WEBSITE
+        </Link>
+      </div>
+
       {/* Error */}
 
       {error && (

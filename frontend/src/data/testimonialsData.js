@@ -10,7 +10,7 @@ const testimonialsData = [
   {
     id: 1,
 
-    name: "Mrs. Aisha Bello",
+    name: "Mr. Qudus Bello",
 
     role: "Parent",
 
@@ -27,7 +27,7 @@ const testimonialsData = [
   {
     id: 2,
 
-    name: "Muhammad Yusuf",
+    name: "Amosu Ayomide Victoria",
 
     role: "Student",
 
@@ -44,7 +44,7 @@ const testimonialsData = [
   {
     id: 3,
 
-    name: "Engr. Ibrahim Lawal",
+    name: "Engr. Basit Omotunde",
 
     role: "Alumnus",
 
@@ -61,7 +61,7 @@ const testimonialsData = [
   {
     id: 4,
 
-    name: "Mrs. Fatimah Abdul",
+    name: "Mr. Adewale Adebayo",
 
     role: "Teacher",
 

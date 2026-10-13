@@ -1,107 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  HiMagnifyingGlass,
-  HiArrowDownTray,
-  HiPlus,
-} from "react-icons/hi2";
-
-/*
-|--------------------------------------------------------------------------
-| Responsive Search Input
-|--------------------------------------------------------------------------
-*/
-
-function SearchInput({ search, setSearch }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkScreen = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkScreen();
-
-    window.addEventListener("resize", checkScreen);
-
-    return () =>
-      window.removeEventListener("resize", checkScreen);
-  }, []);
-
-  const showInput = !isMobile || isOpen;
-
-  if (!showInput) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "8px",
-          padding: "12px",
-          border: "1px solid #CBD5E1",
-          borderRadius: "12px",
-          background: "#fff",
-          cursor: "pointer",
-          fontWeight: 500,
-        }}
-      >
-        <HiMagnifyingGlass size={20} />
-        Search
-      </button>
-    );
-  }
-
-  return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-      }}
-    >
-      <HiMagnifyingGlass
-        style={{
-          position: "absolute",
-          left: "14px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: "#94A3B8",
-          fontSize: "20px",
-        }}
-      />
-
-      <input
-        type="text"
-        placeholder="Search by name or admission number..."
-        value={search}
-        autoFocus={isMobile}
-        onChange={(e) => setSearch(e.target.value)}
-        onBlur={() => {
-          if (isMobile && !search) {
-            setIsOpen(false);
-          }
-        }}
-        style={{
-          width: "100%",
-          padding: "12px 16px 12px 44px",
-          borderRadius: "12px",
-          border: "1px solid #CBD5E1",
-          outline: "none",
-          fontSize: "15px",
-          boxSizing: "border-box",
-        }}
-      />
-    </div>
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| Student Toolbar
-|--------------------------------------------------------------------------
-*/
+import { HiMagnifyingGlass, HiPlus, HiXMark } from "react-icons/hi2";
 
 export default function StudentToolbar({
   onAddStudent,
@@ -114,167 +12,142 @@ export default function StudentToolbar({
   status,
   setStatus,
 }) {
-  const selectStyle = {
-    width: "100%",
+  const [showSearch, setShowSearch] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // ULTRA COMPACT BOXES
+  const box = {
+    height: "30px",
     border: "1px solid #CBD5E1",
-    borderRadius: "12px",
-    padding: "12px 16px",
-    fontSize: "15px",
+    borderRadius: "6px",
+    padding: "0 6px",
+    fontSize: "11px",
     outline: "none",
     background: "#fff",
-    boxSizing: "border-box",
+    flex: "1 1 0",
+    minWidth: "0",
+    maxWidth: "85px",
   };
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: "16px",
-        border: "1px solid #E5E7EB",
-        boxShadow: "0 4px 18px rgba(15,23,42,.06)",
-        padding: "24px",
-        margin: "24px",
-      }}
-    >
-      {/* Header */}
+    <>
+      <style>{`
+        .st-wrap{background:#fff; border:1px solid #E5E7EB; border-radius:10px; padding:6px 8px; width:100%; box-sizing:border-box; overflow:hidden;}
+        .st-head{margin-bottom:5px;}
+        .st-head h1{margin:0; font-size:14px; font-weight:800; line-height:1;}
+        .st-row{display:flex; gap:4px; align-items:center; width:100%; flex-wrap:nowrap; overflow:hidden;}
+        .st-icon{width:30px; height:30px; border:1px solid #CBD5E1; border-radius:6px; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;}
+        .st-popup{position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:9999; display:flex; align-items:flex-start; justify-content:center; padding-top:70px;}
+        .st-popup-box{background:#fff; width:90%; max-width:360px; border-radius:10px; padding:10px; display:flex; gap:6px;}
+        .st-popup-box input{flex:1; height:40px; border:1px solid #CBD5E1; border-radius:8px; padding:0 12px; font-size:14px; outline:none;}
+        @media(min-width:768px){
+          .st-wrap{padding:12px;}
+          .st-head h1{font-size:18px;}
+          .st-row{gap:6px;}
+        }
+      `}</style>
 
-      <div
-        style={{
-          marginBottom: "24px",
-        }}
-      >
-        <h1
-          style={{
-            margin: 0,
-            fontSize: "30px",
-            fontWeight: 700,
-            color: "#111827",
-          }}
-        >
-          Students
-        </h1>
+      <div className="st-wrap">
+        <div className="st-head">
+          <h1>Students</h1>
+        </div>
 
-        <p
-          style={{
-            marginTop: "8px",
-            color: "#64748B",
-          }}
-        >
-          Manage all students within the school.
-        </p>
-      </div>
+        <div className="st-row">
+          {/* SEARCH ICON ONLY - MOBILE */}
+          {isMobile ? (
+            <button className="st-icon" onClick={() => setShowSearch(true)}>
+              <HiMagnifyingGlass size={14} />
+            </button>
+          ) : (
+            <div style={{ position: "relative", flex: "1", minWidth: 0, maxWidth: "160px" }}>
+              <HiMagnifyingGlass style={{ position: "absolute", left: "6px", top: "50%", transform: "translateY(-50%)", color: "#94A3B8", fontSize: "11px" }} />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                style={{ ...box, paddingLeft: "20px", maxWidth: "160px", width: "100%" }}
+              />
+            </div>
+          )}
 
-      {/* Controls */}
+          <select value={studentClass} onChange={(e) => setStudentClass(e.target.value)} style={box}>
+            <option value="">Class</option>
+            <option>P1</option>
+            <option>P2</option>
+            <option>P3</option>
+            <option>P4</option>
+            <option>P5</option>
+            <option>P6</option>
+            <option>JSS1</option>
+            <option>JSS2</option>
+            <option>JSS3</option>
+            <option>SS1</option>
+            <option>SS2</option>
+            <option>SS3</option>
+          </select>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "14px",
-        }}
-      >
-        <SearchInput
-          search={search}
-          setSearch={setSearch}
-        />
+          <select value={gender} onChange={(e) => setGender(e.target.value)} style={box}>
+            <option value="">Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
 
-        <select
-          value={studentClass}
-          onChange={(e) =>
-            setStudentClass(e.target.value)
-          }
-          style={selectStyle}
-        >
-          <option value="">All Classes</option>
-          <option>Primary 1</option>
-          <option>Primary 2</option>
-          <option>Primary 3</option>
-          <option>Primary 4</option>
-          <option>Primary 5</option>
-          <option>Primary 6</option>
-          <option>JSS 1</option>
-          <option>JSS 2</option>
-          <option>JSS 3</option>
-          <option>SS 1</option>
-          <option>SS 2</option>
-          <option>SS 3</option>
-        </select>
+          <select value={status} onChange={(e) => setStatus(e.target.value)} style={{ ...box, maxWidth: "75px" }}>
+            <option value="">Status</option>
+            <option>Pending</option>
+            <option>Admitted</option>
+            <option>Rejected</option>
+          </select>
 
-        <select
-          value={gender}
-          onChange={(e) =>
-            setGender(e.target.value)
-          }
-          style={selectStyle}
-        >
-          <option value="">Gender</option>
-          <option>Male</option>
-          <option>Female</option>
-        </select>
-
-        <select
-          value={status}
-          onChange={(e) =>
-            setStatus(e.target.value)
-          }
-          style={selectStyle}
-        >
-          <option value="">Admission Status</option>
-          <option>Pending</option>
-          <option>Admitted</option>
-          <option>Rejected</option>
-        </select>
-
-        {/* Buttons */}
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-          }}
-        >
-          <button
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "8px",
-              padding: "12px",
-              borderRadius: "12px",
-              border: "1px solid #CBD5E1",
-              background: "#fff",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            <HiArrowDownTray size={20} />
-            Export
-          </button>
-
+          {/* ONLY ADD BUTTON - NO EXPORT */}
           <button
             onClick={onAddStudent}
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "8px",
-              padding: "12px",
-              border: "none",
-              borderRadius: "12px",
+              height: "30px",
+              padding: "0 8px",
+              borderRadius: "6px",
+              fontSize: "11px",
+              fontWeight: 700,
               background: "#1E40AF",
               color: "#fff",
+              border: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "3px",
               cursor: "pointer",
-              fontWeight: 600,
-              boxShadow:
-                "0 4px 12px rgba(30,64,175,.25)",
+              flexShrink: 0,
             }}
           >
-            <HiPlus size={20} />
-            Add Student
+            <HiPlus size={12} /> Add
           </button>
         </div>
       </div>
-    </div>
+
+      {/* SEARCH POPUP FOR MOBILE */}
+      {showSearch && (
+        <div className="st-popup" onClick={() => setShowSearch(false)}>
+          <div className="st-popup-box" onClick={(e) => e.stopPropagation()}>
+            <input
+              autoFocus
+              type="text"
+              placeholder="Search name or admission no..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button onClick={() => setShowSearch(false)} className="st-icon" style={{ width: "40px", height: "40px" }}>
+              <HiXMark size={16} />
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

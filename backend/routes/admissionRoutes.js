@@ -26,6 +26,7 @@ const router = express.Router();
 
 router.post(
   "/",
+  upload.single("passport"),
   createAdmissionValidation,
   validate,
   createAdmission

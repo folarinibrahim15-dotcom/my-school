@@ -14,7 +14,6 @@ export const admissionApi = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-
       invalidatesTags: ["Admissions"],
     }),
 
@@ -40,7 +39,6 @@ export const admissionApi = apiSlice.injectEndpoints({
           classApplyingFor,
         },
       }),
-
       providesTags: ["Admissions"],
     }),
 
@@ -51,24 +49,23 @@ export const admissionApi = apiSlice.injectEndpoints({
     */
     getAdmission: builder.query({
       query: (id) => `/admissions/${id}`,
-
       providesTags: (result, error, id) => [
         { type: "Admissions", id },
+        "Admissions"
       ],
     }),
 
     /*
     |--------------------------------------------------------------------------
-    | Update Admission
+    | Update Admission - FIXED
     |--------------------------------------------------------------------------
     */
     updateAdmission: builder.mutation({
-      query: ({ id, ...data }) => ({
+      query: ({ id, data, ...rest }) => ({
         url: `/admissions/${id}`,
         method: "PUT",
-        body: data,
+        body: data ? data : rest, // FIX: accepts {id, data: {...}} AND {id, ...formData}
       }),
-
       invalidatesTags: (result, error, { id }) => [
         "Admissions",
         { type: "Admissions", id },
@@ -89,7 +86,6 @@ export const admissionApi = apiSlice.injectEndpoints({
           remarks,
         },
       }),
-
       invalidatesTags: (result, error, { id }) => [
         "Admissions",
         { type: "Admissions", id },
@@ -107,7 +103,6 @@ export const admissionApi = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-
       invalidatesTags: (result, error, { id }) => [
         "Admissions",
         { type: "Admissions", id },
@@ -124,7 +119,6 @@ export const admissionApi = apiSlice.injectEndpoints({
         url: `/admissions/${id}`,
         method: "DELETE",
       }),
-
       invalidatesTags: ["Admissions"],
     }),
 

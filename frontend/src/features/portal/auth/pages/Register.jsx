@@ -3,13 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useRegisterMutation } from "../../../../redux/api/authApi";
 
-
 export default function Register() {
 
     const navigate = useNavigate();
 
     const [register, { isLoading }] = useRegisterMutation();
-
 
     const [formData, setFormData] = useState({
 
@@ -22,13 +20,9 @@ export default function Register() {
 
     });
 
-
     const [showPassword, setShowPassword] = useState(false);
 
-
     const [error, setError] = useState("");
-
-
 
     const handleChange = (e) => {
 
@@ -42,7 +36,28 @@ export default function Register() {
 
     };
 
+    // AI INTELLIGENCE: Password strength validator
+    const validatePasswordSecurity = (password) => {
+        const missing = [];
 
+        if (password.length < 8) {
+            missing.push("at least 8 characters");
+        }
+        if (!/[A-Z]/.test(password)) {
+            missing.push("one uppercase letter (A-Z)");
+        }
+        if (!/[a-z]/.test(password)) {
+            missing.push("one lowercase letter (a-z)");
+        }
+        if (!/[0-9]/.test(password)) {
+            missing.push("one number (0-9)");
+        }
+        if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) {
+            missing.push("one special character (!@#$%...)");
+        }
+
+        return missing;
+    };
 
     const handleSubmit = async (e) => {
 
@@ -50,6 +65,15 @@ export default function Register() {
 
         setError("");
 
+        // Check password security first
+        const missingRequirements = validatePasswordSecurity(formData.password);
+
+        if (missingRequirements.length > 0) {
+            setError(
+                `Password must include ${missingRequirements.join(", ")}.`
+            );
+            return;
+        }
 
         if(formData.password !== formData.confirmPassword){
 
@@ -59,10 +83,7 @@ export default function Register() {
 
         }
 
-
-
         try {
-
 
             await register({
 
@@ -78,16 +99,11 @@ export default function Register() {
 
             }).unwrap();
 
-
-
             alert("Registration successful!");
 
             navigate("/portal/login");
 
-
-
         } catch(err){
-
 
             setError(
 
@@ -97,15 +113,9 @@ export default function Register() {
 
             );
 
-
         }
 
-
     };
-
-
-
-
 
   return (
         <main style={{

@@ -33,8 +33,12 @@ export default function EditTeacherModal({
         status: "Active",
     });
 
+    // Track original status to know if edited
+    const [originalStatus, setOriginalStatus] = useState("Active");
+
     useEffect(() => {
         if (teacher) {
+            const currentStatus = teacher.status || "Active";
             setFormData({
                 employeeId: teacher.employeeId || "",
                 firstName: teacher.firstName || "",
@@ -46,18 +50,19 @@ export default function EditTeacherModal({
                 qualification: teacher.qualification || "",
                 specialization: teacher.specialization || "",
                 employmentDate: teacher.employmentDate
-                   ? teacher.employmentDate.slice(0, 10)
+                  ? teacher.employmentDate.slice(0, 10)
                     : "",
                 address: teacher.address || "",
-                status: teacher.status || "Active",
+                status: currentStatus, // NOT HARDCODED - uses actual teacher status
             });
+            setOriginalStatus(currentStatus);
         }
     }, [teacher]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
-           ...prev,
+          ...prev,
             [name]: value,
         }));
     };
@@ -67,9 +72,9 @@ export default function EditTeacherModal({
         try {
             await updateTeacher({
                 id: teacher._id,
-                data: formData,
+                data: formData, // status will be whatever you selected - Active or Inactive
             }).unwrap();
-            alert("Teacher updated successfully.");
+            alert(`Teacher updated successfully. Status is now: ${formData.status}`);
             onClose();
         } catch (err) {
             console.log("FULL ERROR:", err);
@@ -130,6 +135,8 @@ export default function EditTeacherModal({
         fontSize: "0.95rem"
     };
 
+    const isStatusEdited = formData.status!== originalStatus;
+
     return (
         <div
             style={{
@@ -170,6 +177,20 @@ export default function EditTeacherModal({
                         }}
                     >
                         Edit Teacher
+                        {isStatusEdited && (
+                            <span style={{
+                                marginLeft: '0.75rem',
+                                fontSize: '0.75rem',
+                                backgroundColor: '#fef3c7',
+                                color: '#92400e',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '9999px',
+                                fontWeight: '600',
+                                verticalAlign: 'middle'
+                            }}>
+                                Status Edited: {formData.status}
+                            </span>
+                        )}
                     </h2>
                     <button
                         onClick={onClose}
@@ -300,11 +321,17 @@ export default function EditTeacherModal({
                         required
                     />
 
+                    {/* STATUS - NOW FULLY DYNAMIC */}
                     <select
                         name="status"
                         value={formData.status}
                         onChange={handleChange}
-                        style={inputBaseStyle}
+                        style={{
+                           ...inputBaseStyle,
+                            borderColor: isStatusEdited? "#f59e0b" : "#cbd5e1",
+                            backgroundColor: isStatusEdited? "#fffbeb" : "#ffffff",
+                            fontWeight: isStatusEdited? "600" : "400"
+                        }}
                         {...focusHandlers}
                     >
                         <option value="Active">Active</option>
@@ -318,7 +345,7 @@ export default function EditTeacherModal({
                         placeholder="Address"
                         rows={4}
                         style={{
-                           ...inputBaseStyle,
+                          ...inputBaseStyle,
                             gridColumn: isDesktop? "1 / 3" : "1 / 2",
                             height: "120px",
                             resize: "vertical"
@@ -356,7 +383,7 @@ export default function EditTeacherModal({
                             onMouseLeave={(e) => { if(!isLoading) e.currentTarget.style.backgroundColor = "#1d4ed8"; }}
                             style={buttonPrimary}
                         >
-                            {isLoading? "Updating..." : "Update Teacher"}
+                            {isLoading? "Updating..." : `Update Teacher ${isStatusEdited? `to ${formData.status}` : ""}`}
                         </button>
                     </div>
                 </form>

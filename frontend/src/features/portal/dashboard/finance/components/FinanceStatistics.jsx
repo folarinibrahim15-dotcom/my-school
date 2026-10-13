@@ -1,143 +1,155 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
-    HiCurrencyDollar,
-    HiClock,
-    HiCheckCircle,
-    HiXCircle,
+    HiOutlineCurrencyDollar,
+    HiOutlineDocumentChartBar,
+    HiOutlineTag,
+    HiOutlineCheckCircle,
+    HiOutlineClock,
+    HiOutlineDocumentText,
 } from "react-icons/hi2";
+import { useGetPaymentsQuery } from "../../../../../redux/api/paymentApi";
+import { useGetDashboardStatsQuery } from "../../../../../redux/api/dashboardApi";
 
-export default function FinanceStatistics({
-    payments = [],
-}) {
-    const totalRevenue = payments
-        .filter((p) => p.status === "Paid")
-        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+export default function FinanceStatistics({ dashboard: propDashboard = {}, payments: propPayments = [] }) {
+    const { data: statsData } = useGetDashboardStatsQuery();
+    const { data: paymentsApiData } = useGetPaymentsQuery({ limit: 2000 });
 
-    const pendingPayments = payments.filter(
-        (p) => p.status === "Pending"
-    ).length;
+    const dashboard = useMemo(() => {
+        const f = statsData?.data || statsData || {};
+        return { ...f, ...(f.data || {}), ...(propDashboard || {}) };
+    }, [statsData, propDashboard]);
 
-    const failedPayments = payments.filter(
-        (p) => p.status === "Failed"
-    ).length;
+    const allPayments = useMemo(() => {
+        let all = [...(propPayments || [])];
+        const apiList = paymentsApiData?.payments || paymentsApiData?.data || paymentsApiData || [];
+        if (Array.isArray(apiList)) all = [...all, ...apiList];
+        if (dashboard.payments) all = [...all, ...dashboard.payments];
+        if (dashboard.recentPayments) all = [...all, ...dashboard.recentPayments];
+        return Array.from(new Map(all.filter(Boolean).map(p => [p._id, p])).values());
+    }, [propPayments, paymentsApiData, dashboard]);
 
-    const refundedPayments = payments.filter(
-        (p) => p.status === "Refunded"
-    ).length;
+    const isPaid = (p) => ["Paid", "Successful", "Success", "Completed"].includes(p.status || p.paymentStatus);
+    const normalize = (p) => (p.paymentType || p.feeType || p.category || p.type || "General").toLowerCase();
 
-    const paidCount = payments.filter((p) => p.status === "Paid").length;
+    // 1. TOTAL REVENUE - DB
+    const totalRevenue = Number(
+        dashboard?.totalRevenue || allPayments.filter(isPaid).reduce((s, p) => s + Number(p.amount || 0), 0) || 0
+    );
 
+    // 2. ADMISSION FEES - DB (any category containing admission/application/form)
+    const admissionFees = allPayments
+        .filter(isPaid)
+        .filter(p => {
+            const t = normalize(p);
+            return t.includes("admission") || t.includes("application") || t.includes("form");
+        })
+        .reduce((s, p) => s + Number(p.amount || 0), 0);
+
+    const admissionTotal = Number(dashboard?.admissionFeesTotal || dashboard?.totalAdmissionFees || admissionFees || 0);
+
+    // 3. OTHER FEES - THIS REPLACES UNIFORM - CARRIES ALL OTHER CATEGORIES
+    // School Fee + Uniform + Exam + Bus + Tuition + Any category you create
+    const otherFees = allPayments
+        .filter(isPaid)
+        .filter(p => {
+            const t = normalize(p);
+            return !(t.includes("admission") || t.includes("application") || t.includes("form"));
+        })
+        .reduce((s, p) => s + Number(p.amount || 0), 0);
+
+    const otherFeesTotal = Number(
+        dashboard?.otherFeesTotal || dashboard?.schoolFeesTotal || otherFees || totalRevenue - admissionTotal || 0
+    );
+
+    // 4. PAID, 5. PENDING, 6. RECEIPTS
+    const paid = dashboard?.totalPaid || allPayments.filter(isPaid).length;
+    const pending = dashboard?.totalPending || allPayments.filter(p => p.status === "Pending").length;
+    const receipts = dashboard?.totalReceipts || allPayments.filter(p => isPaid(p)).length;
+
+    // ORDER YOU REQUESTED
     const cards = [
         {
             title: "Total Revenue",
             value: `₦${totalRevenue.toLocaleString()}`,
-            bg: "#dcfce7", // bg-green-100
-            icon: <HiCurrencyDollar size={28} />,
-            iconColor: "#16a34a", // text-green-600
+            sub: `${allPayments.length} transactions from DB`,
+            bg: "#9333ea",
+            icon: <HiOutlineCurrencyDollar size={28} />,
         },
         {
-            title: "Pending",
-            value: pendingPayments,
-            bg: "#fef9c3", // bg-yellow-100
-            icon: <HiClock size={28} />,
-            iconColor: "#ca8a04", // text-yellow-600
+            title: "Admission Fees",
+            value: `₦${admissionTotal.toLocaleString()}`,
+            sub: `${allPayments.filter(p => normalize(p).includes("admission") || normalize(p).includes("application")).filter(isPaid).length} payments`,
+            bg: "#ea580c",
+            icon: <HiOutlineDocumentChartBar size={28} />,
+        },
+        {
+            title: "Other Fees", // REPLACES UNIFORM - CARRIES ALL CATEGORIES
+            value: `₦${otherFeesTotal.toLocaleString()}`,
+            sub: `School, Uniform, Exam & ${Object.keys(
+                allPayments
+                    .filter(isPaid)
+                    .filter(p => !normalize(p).includes("admission") && !normalize(p).includes("application"))
+                    .reduce((acc, p) => {
+                        const cat = (p.paymentType || p.feeType || p.category || "General").trim();
+                        acc[cat] = true;
+                        return acc;
+                    }, {})
+            ).length} categories`,
+            bg: "#2563eb",
+            icon: <HiOutlineTag size={28} />,
         },
         {
             title: "Paid",
-            value: paidCount,
-            bg: "#dbeafe", // bg-blue-100
-            icon: <HiCheckCircle size={28} />,
-            iconColor: "#2563eb", // text-blue-600
+            value: paid,
+            sub: "Successful payments",
+            bg: "#16a34a",
+            icon: <HiOutlineCheckCircle size={28} />,
         },
         {
-            title: "Failed",
-            value: failedPayments,
-            bg: "#fee2e2", // bg-red-100
-            icon: <HiXCircle size={28} />,
-            iconColor: "#dc2626", // text-red-600
+            title: "Pending",
+            value: pending,
+            sub: "Awaiting confirmation",
+            bg: "#eab308",
+            icon: <HiOutlineClock size={28} />,
         },
         {
-            title: "Refunded",
-            value: refundedPayments,
-            bg: "#f3e8ff", // bg-purple-100
-            icon: <HiXCircle size={28} />,
-            iconColor: "#9333ea", // text-purple-600
+            title: "Receipts",
+            value: receipts,
+            sub: "Issued & tracked",
+            bg: "#7c3aed",
+            icon: <HiOutlineDocumentText size={28} />,
         },
     ];
 
-    return (
-        <div
-            style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", // 1 col mobile, 2 col md, 4 col xl
-                gap: "1.5rem" // gap-6
-            }}
-        >
-            {cards.map((card) => (
-                <div
-                    key={card.title}
-                    style={{
-                        backgroundColor: "#ffffff",
-                        borderRadius: "1.5rem", // rounded-2xl
-                        border: "1px solid #e5e7eb", // border
-                        boxShadow: "0 4px 18px rgba(15, 23, 42, 0.06)", // shadow-sm premium
-                        padding: "1.5rem", // p-6
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        transition: "all 0.2s ease"
-                    }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow = "0 10px 30px rgba(15, 23, 42, 0.1)";
-                        e.currentTarget.style.transform = "translateY(-2px)";
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.boxShadow = "0 4px 18px rgba(15, 23, 42, 0.06)";
-                        e.currentTarget.style.transform = "translateY(0)";
-                    }}
-                >
-                    <div>
-                        <p
-                            style={{
-                                color: "#64748b", // text-gray-500
-                                fontSize: "0.875rem", // text-sm
-                                margin: 0,
-                                fontWeight: "500"
-                            }}
-                        >
-                            {card.title}
-                        </p>
-                        <h2
-                            style={{
-                                fontSize: "clamp(1.875rem, 4vw, 2.25rem)", // text-3xl responsive
-                                fontWeight: "700",
-                                marginTop: "0.5rem", // mt-2
-                                margin: "0.5rem 0 0 0",
-                                color: "#0f172a"
-                            }}
-                        >
-                            {card.value}
-                        </h2>
-                    </div>
+    const gridResponsive = `@media (min-width: 768px){.stats-grid{grid-template-columns:repeat(2,1fr)!important;}} @media (min-width:1280px){.stats-grid{grid-template-columns:repeat(3,1fr)!important;}}`;
 
+    return (
+        <>
+            <style>{gridResponsive}</style>
+            <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: "1.5rem" }}>
+                {cards.map(c => (
                     <div
+                        key={c.title}
                         style={{
-                            width: "3.5rem", // w-14
-                            height: "3.5rem", // h-14
-                            borderRadius: "50%", // rounded-full
-                            backgroundColor: card.bg,
+                            background: "#ffffff",
+                            borderRadius: "1.5rem",
+                            border: "1px solid #e5e7eb",
+                            padding: "1.5rem",
                             display: "flex",
+                            justifyContent: "space-between",
                             alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0
+                            boxShadow: "0 4px 18px rgba(15,23,42,0.06)",
                         }}
                     >
-                        <span style={{ color: card.iconColor }}>
-                            {card.icon}
-                        </span>
+                        <div>
+                            <p style={{ color: "#64748b", fontSize: "0.875rem", margin: 0, fontWeight: "500" }}>{c.title}</p>
+                            <h2 style={{ fontSize: "1.75rem", fontWeight: "800", marginTop: "0.5rem", color: "#0f172a", marginBottom: 0 }}>{c.value}</h2>
+                            <p style={{ color: "#94a3b8", fontSize: "0.75rem", margin: "4px 0 0 0" }}>{c.sub}</p>
+                        </div>
+                        <div style={{ background: c.bg, color: "#fff", padding: "0.9rem", borderRadius: "0.9rem", display: "flex" }}>{c.icon}</div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 }

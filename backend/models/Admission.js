@@ -142,6 +142,34 @@ const admissionSchema = new mongoose.Schema(
 
     /*
     |--------------------------------------------------------------------------
+    | Passport Photograph
+    |--------------------------------------------------------------------------
+    */
+
+    passportPhoto: {
+      url: {
+        type: String,
+        default: "",
+      },
+
+      publicId: {
+        type: String,
+        default: "",
+      },
+
+      name: {
+        type: String,
+        default: "",
+      },
+
+      uploadedAt: {
+        type: Date,
+        default: null,
+      },
+    },
+
+    /*
+    |--------------------------------------------------------------------------
     | Required Documents
     |--------------------------------------------------------------------------
     */

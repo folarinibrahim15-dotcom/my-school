@@ -8,10 +8,14 @@ import { useNavigate } from "react-router-dom";
 
 /*
 |--------------------------------------------------------------------------
-| Status Badge
+| Status Badge - NOW DYNAMIC
 |--------------------------------------------------------------------------
 */
-function StatusBadge({ isActive }) {
+function StatusBadge({ teacher }) {
+    // Check edited status first, fallback to isActive boolean
+    const statusValue = teacher?.status || (teacher?.isActive ? "Active" : "Inactive");
+    const isActive = statusValue === "Active";
+
     const background = isActive ? "#DCFCE7" : "#FEE2E2";
     const color = isActive ? "#15803D" : "#B91C1C";
     const text = isActive ? "Active" : "Inactive";
@@ -211,11 +215,11 @@ export default function TeacherTable({
                                                 </div>
                                             </div>
                                         </td>
-                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{teacher.staffId}</td>
-                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{teacher.department}</td>
-                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{(teacher.subjects || []).join(", ")}</td>
+                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{teacher.staffId || teacher.employeeId}</td>
+                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{teacher.department || teacher.specialization}</td>
+                                        <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{(teacher.subjects || []).join(", ") || teacher.qualification || "-"}</td>
                                         <td style={{ padding: "18px 24px", fontSize: 14, color: "#334155" }}>{teacher.phoneNumber}</td>
-                                        <td style={{ padding: "18px 24px" }}><StatusBadge isActive={teacher.isActive} /></td>
+                                        <td style={{ padding: "18px 24px" }}><StatusBadge teacher={teacher} /></td>
                                         <td style={{ padding: "18px 24px", textAlign: "center" }}>
                                             <ActionButtons teacher={teacher} navigate={navigate} onEdit={onEdit} onDelete={onDelete} />
                                         </td>
@@ -260,13 +264,13 @@ export default function TeacherTable({
 
                         {/* ALL 7 Information */}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-                            <InfoRow label="Staff ID" value={teacher.staffId} />
-                            <InfoRow label="Department" value={teacher.department} />
-                            <InfoRow label="Subjects" value={(teacher.subjects || []).join(", ")} />
+                            <InfoRow label="Staff ID" value={teacher.staffId || teacher.employeeId} />
+                            <InfoRow label="Department" value={teacher.department || teacher.specialization} />
+                            <InfoRow label="Subjects" value={(teacher.subjects || []).join(", ") || teacher.qualification} />
                             <InfoRow label="Phone" value={teacher.phoneNumber} />
                             <div>
                                 <div style={{ color: "#64748B", fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Status</div>
-                                <StatusBadge isActive={teacher.isActive} />
+                                <StatusBadge teacher={teacher} />
                             </div>
                         </div>
 

@@ -12,14 +12,11 @@ export const apiSlice = createApi({
         credentials: "include",
 
         prepareHeaders: (headers, { getState }) => {
-            const reduxToken =
-                getState().auth?.token;
+            const reduxToken = getState().auth?.token;
 
-            const savedToken =
-                localStorage.getItem("accessToken");
+            const savedToken = localStorage.getItem("accessToken");
 
-            const token =
-                reduxToken || savedToken;
+            const token = reduxToken || savedToken;
 
             if (token) {
                 headers.set(
@@ -28,10 +25,10 @@ export const apiSlice = createApi({
                 );
             }
 
-            headers.set(
-                "Content-Type",
-                "application/json"
-            );
+            // Do not force Content-Type here.
+            // RTK Query handles JSON bodies automatically.
+            // FormData requests need the browser to set
+            // the appropriate multipart boundary.
 
             return headers;
         },
@@ -44,6 +41,7 @@ export const apiSlice = createApi({
         "Teacher",
         "Parent",
         "Admission",
+        "Admissions",
         "Finance",
         "Notification",
         "News",

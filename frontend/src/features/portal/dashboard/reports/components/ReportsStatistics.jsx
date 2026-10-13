@@ -1,137 +1,110 @@
 import React from "react";
 import {
-    HiOutlineAcademicCap,
-    HiOutlineUserGroup,
-    HiOutlineBriefcase,
-    HiOutlineCurrencyDollar,
-    HiOutlineDocumentChartBar,
+  HiOutlineAcademicCap,
+  HiOutlineUserGroup,
+  HiOutlineBriefcase,
+  HiOutlineCurrencyDollar,
+  HiOutlineDocumentChartBar,
 } from "react-icons/hi2";
 
-export default function ReportsStatistics({
-    dashboard = {},
-}) {
+export default function ReportsStatistics({ dashboard = {} }) {
+  const cards = [
+    {
+      title: "Students",
+      value: dashboard.totalStudents || 0,
+      sub: "+12% vs last month",
+      gradient: "linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%)",
+      shadow: "0 8px 20px rgba(37,99,235,.25)",
+      icon: <HiOutlineAcademicCap size={22} />,
+    },
+    {
+      title: "Teachers",
+      value: dashboard.totalTeachers || 0,
+      sub: "Active staff",
+      gradient: "linear-gradient(135deg,#4F46E5 0%,#4338CA 100%)",
+      shadow: "0 8px 20px rgba(79,70,229,.25)",
+      icon: <HiOutlineBriefcase size={22} />,
+    },
+    {
+      title: "Parents",
+      value: dashboard.totalParents || 0,
+      sub: "Registered",
+      gradient: "linear-gradient(135deg,#16A34A 0%,#15803D 100%)",
+      shadow: "0 8px 20px rgba(22,163,74,.25)",
+      icon: <HiOutlineUserGroup size={22} />,
+    },
+    {
+      title: "Admissions",
+      value: dashboard.totalAdmissions || 0,
+      sub: "This session",
+      gradient: "linear-gradient(135deg,#EAB308 0%,#CA8A04 100%)",
+      shadow: "0 8px 20px rgba(234,179,8,.25)",
+      icon: <HiOutlineDocumentChartBar size={22} />,
+    },
+    {
+      title: "Revenue",
+      value: `₦${Number(dashboard.totalRevenue || 0).toLocaleString()}`,
+      sub: "Total earnings",
+      gradient: "linear-gradient(135deg,#9333EA 0%,#7E22CE 100%)",
+      shadow: "0 8px 20px rgba(147,51,234,.28)",
+      icon: <HiOutlineCurrencyDollar size={22} />,
+      isRevenue: true,
+    },
+  ];
 
-    const cards = [
-        {
-            title: "Students",
-            value: dashboard.totalStudents || 0,
-            bg: "#2563eb", // bg-blue-600
-            icon: <HiOutlineAcademicCap size={28} />,
-        },
-        {
-            title: "Teachers",
-            value: dashboard.totalTeachers || 0,
-            bg: "#4f46e5", // bg-indigo-600
-            icon: <HiOutlineBriefcase size={28} />,
-        },
-        {
-            title: "Parents",
-            value: dashboard.totalParents || 0,
-            bg: "#16a34a", // bg-green-600
-            icon: <HiOutlineUserGroup size={28} />,
-        },
-        {
-            title: "Admissions",
-            value: dashboard.totalAdmissions || 0,
-            bg: "#eab308", // bg-yellow-500
-            icon: <HiOutlineDocumentChartBar size={28} />,
-        },
-        {
-            title: "Revenue",
-            value: `₦${Number(dashboard.totalRevenue || 0).toLocaleString()}`,
-            bg: "#9333ea", // bg-purple-600
-            icon: <HiOutlineCurrencyDollar size={28} />,
-        },
-    ];
+  return (
+    <>
+      <style>{`
+        .stats-grid{display:grid; grid-template-columns:1fr; gap:10px; width:100%; box-sizing:border-box;}
+        .stats-card{position:relative; background:#fff; border-radius:14px; border:1px solid #E5E7EB; padding:14px; display:flex; align-items:center; justify-content:space-between; overflow:hidden; box-shadow:0 2px 10px rgba(15,23,42,.05); transition:all .25s ease; box-sizing:border-box;}
+        .stats-card:hover{transform:translateY(-3px); box-shadow:0 10px 28px rgba(15,23,42,.08);}
+        .stats-left{flex:1; min-width:0; padding-right:12px;}
+        .stats-label{margin:0; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:#64748B;}
+        .stats-value{margin:6px 0 4px 0; font-size:22px; font-weight:800; color:#0F172A; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+        .stats-value.revenue{font-size:16px; letter-spacing:-.02em;}
+        .stats-sub{margin:0; font-size:11px; color:#94A3B8; font-weight:500;}
+        .stats-icon{width:42px; height:42px; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#fff; flex-shrink:0;}
+        .stats-glow{position:absolute; right:-20px; top:-20px; width:80px; height:80px; border-radius:50%; opacity:.08;}
 
-    const grid = {
-        display: "grid",
-        gridTemplateColumns: "1fr", // default mobile = 1 column vertical
-        gap: "1.5rem", // gap-6
-        width: "100%"
-    };
-
-    const gridResponsive = `
-        @media (min-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr) !important; /* md: 2 columns */
-            }
+        /* MOBILE - COMPRESSED LEFT EDGE */
+        @media(max-width:767px){
+          .stats-grid{width:320px; max-width:92vw; margin-left:12px;}
+          .stats-card{padding:12px;}
+          .stats-value{font-size:18px;}
+          .stats-value.revenue{font-size:14px;}
+          .stats-icon{width:36px; height:36px;}
         }
-        @media (min-width: 1280px) {
-            .stats-grid {
-                grid-template-columns: repeat(5, 1fr) !important; /* xl: 5 columns */
-            }
+        @media(min-width:768px){
+          .stats-grid{grid-template-columns:repeat(2,1fr); gap:16px;}
+          .stats-card{border-radius:18px; padding:20px;}
+          .stats-value{font-size:24px;}
+          .stats-value.revenue{font-size:20px;}
+          .stats-icon{width:48px; height:48px; border-radius:12px;}
         }
-    `;
+        @media(min-width:1280px){
+          .stats-grid{grid-template-columns:repeat(5,1fr);}
+        }
+      `}</style>
 
-    const card = {
-        backgroundColor: "#ffffff",
-        borderRadius: "1.5rem", // rounded-2xl
-        boxShadow: "0 4px 18px rgba(15, 23, 42, 0.06)",
-        border: "1px solid #e5e7eb",
-        padding: "clamp(18px, 4vw, 1.5rem)", // p-6 responsive
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        boxSizing: "border-box",
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        transition: "all 0.2s ease"
-    };
+      <div className="stats-grid">
+        {cards.map((c) => (
+          <div key={c.title} className="stats-card">
+            <div className="stats-glow" style={{ background: c.gradient }} />
 
-    const label = {
-        color: "#64748b", // text-gray-500
-        fontSize: "0.875rem", // text-sm
-        margin: 0
-    };
-
-    const value = {
-        fontSize: "clamp(1.5rem, 5vw, 1.875rem)", // text-3xl responsive
-        fontWeight: "700",
-        marginTop: "0.5rem", // mt-2
-        color: "#0f172a",
-        lineHeight: 1.2
-    };
-
-    const iconBox = (bg) => ({
-        backgroundColor: bg,
-        color: "#ffffff",
-        padding: "clamp(0.75rem, 3vw, 1rem)", // p-4 responsive
-        borderRadius: "0.75rem", // rounded-xl
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-        boxShadow: `0 4px 14px ${bg}40` // soft glow
-    });
-
-    return (
-        <>
-            <style>{gridResponsive}</style>
-            <div className="stats-grid" style={grid}>
-                {cards.map((cardItem) => (
-                    <div
-                        key={cardItem.title}
-                        style={card}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = "translateY(-2px)";
-                            e.currentTarget.style.boxShadow = "0 8px 24px rgba(15, 23, 42, 0.1)";
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = "translateY(0)";
-                            e.currentTarget.style.boxShadow = "0 4px 18px rgba(15, 23, 42, 0.06)";
-                        }}
-                    >
-                        <div>
-                            <p style={label}>{cardItem.title}</p>
-                            <h2 style={value}>{cardItem.value}</h2>
-                        </div>
-
-                        <div style={iconBox(cardItem.bg)}>
-                            {cardItem.icon}
-                        </div>
-                    </div>
-                ))}
+            <div className="stats-left">
+              <p className="stats-label">{c.title}</p>
+              <h2 className={`stats-value ${c.isRevenue ? "revenue" : ""}`} title={String(c.value)}>
+                {c.value}
+              </h2>
+              <p className="stats-sub">{c.sub}</p>
             </div>
-        </>
-    );
+
+            <div className="stats-icon" style={{ background: c.gradient, boxShadow: c.shadow }}>
+              {c.icon}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
 }
